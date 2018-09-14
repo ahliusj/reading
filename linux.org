@@ -1,0 +1,20 @@
+* 网络配置
+  -网络配置文件：
+  #+BEGIN_SRC shell
+  /etc/sysconfig/network-scripts/ifcfg-
+  #+END_SRC
+
+  -重启网络：
+  #+BEGIN_SRC shell
+  systemctl restart network
+  #+END_SRC
+
+  -查看网卡信息：
+  #+BEGIN_SRC shell
+  nmcli connection show
+  #+END_SRC
+
+  -命令行模式下网卡修改：
+  #+BEGIN_SRC shell
+  nmtui
+  #+END_SRC
