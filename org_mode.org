@@ -1,0 +1,30 @@
+#+AUTHOR: Shijie Liu
+#+TITLE: Learning ORG-MODE in Emacs
+#+CREATOR: Shijie.ORG
+#+OPTIONS: toc:nil
+
+* Introduction
+** Activation
+  The four Org commands ‘org-store-link’, ‘org-capture’, ‘org-agenda’, and ‘org-iswitchb’ should be accessible through global keys (i.e., anywhere in Emacs, not just in Org buffers).  Here are suggested bindings for these keys, please modify the keys to your own liking.
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cb" 'org-iswitchb)
+
+  With this setup, all files with extension ‘.org’ will be put into Org
+mode.  As an alternative, make the first line of a file look like this:
+MY PROJECTS    -*- mode: org; -*-
+
+** Motion
+   标题间切换，快捷键和命令:
+   | 快捷键    | 命令                           | 说明             |
+   |-----------+--------------------------------+------------------|
+   | =C-c C-n= | =org-next-visible-heading=     | next heading     |
+   | =C-c C-p= | =org-previous-visible-heading= | previous heading |
+   | =C-c C-f= | =org-forward-same-level=       |                  |
+   | =C-c C-b= | =org-backward-same-level=      |                  |
+   | =C-c C-u= | =outline-up-heading=           |                  |
+   | =C-c C-j= | =org-goto=                     |                  |
+   |           | *structure editing*            |                  |
+   |-----------+--------------------------------+------------------|
+   | =M-ret=   | =org-meta-return=              |                  |
