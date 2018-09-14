@@ -18,3 +18,145 @@
   #+BEGIN_SRC shell
   nmtui
   #+END_SRC
+
+
+* 远程连接
+  - ssh [-f] [-o 参数项目] [-p 非默认端口(默认为 22 )] [账号@]IP [指令]
+  -f:主机上执行指令，界面跳回客户端，即不等待主机上指令的执行过程
+  -o:
+  ConnectTimeout=秒数
+  StrictHostKeyChecking=[yes|no|ask(预设)]:当第一次远程到一个主机时，会被询问 "Are you sure you want to continue connecting (yes/no)? ". 当批量执行时，每次问就会很麻烦，这时 StrictHostKeyChecking=no 就是个不错的选择。
+
+  #+BEGIN_EXAMPLE
+  $ ssh -f root@some_IP shutdown -h now
+  #+END_EXAMPLE
+
+  - sftp
+  - scp [-pr] [-l 速率] file [账号@]主机:目录名 <==上传
+  scp [-pr] [-l 速率] [账号@]主机:file 目录名 <==下载
+  -p ：保留原本档案的权限数据；
+  -r ：复制来源为目录时，可以复制整个目录 (含子目录)
+  -l ：可以限制传输的速度，单位为 Kbits/s ，例如 [-l 800] 代表传输速限 100Kbytes/s
+
+  - 查看是否安装了openssh-server：
+    #+BEGIN_SRC shell
+    $ yum list installed | grep openssh-server
+    #+END_SRC
+
+  - 如果没有安装，则安装openssh-server：
+#+BEGIN_SRC shell
+yum install openssh-server
+#+END_SRC
+
+  - sshd 服务配置文件
+    #+BEGIN_SRC shell
+    /etc/ssh/sshd_config
+    #+END_SRC
+
+  - 开启 sshd 服务
+    #+BEGIN_SRC shell
+    $ sudo service sshd start
+    #+END_SRC
+
+  - 检查 sshd 服务是否已经开启：
+    #+BEGIN_SRC shell
+    $ ps -e | grep sshd
+    #+END_SRC
+
+  - 检查 22 号端口是否开启监听：
+    #+BEGIN_SRC shell
+    $ netstat -an | grep 22
+    #+END_SRC
+
+* 防火墙设置
+  1、firewalld的基本使用
+  启动：
+  systemctl start firewalld
+  关闭：
+  systemctl stop firewalld
+  查看状态：
+  systemctl status firewalld
+  开机禁用：
+  systemctl disable firewalld
+  开机启用：
+  systemctl enable firewalld
+
+  2.systemctl是CentOS7的服务管理工具中主要的工具，它融合之前service和chkconfig的功能于一体。
+  启动一个服务：systemctl start 服务名
+  systemctl start firewalld.service
+  关闭一个服务：systemctl stop 服务名
+  systemctl stop firewalld.service
+  重启一个服务：systemctl restart 服务名
+  systemctl restart firewalld.service
+  显示一个服务的状态：systemctl status 服务名
+  systemctl status firewalld.service
+  在开机时启用一个服务：systemctl enable 服务名
+  systemctl enable firewalld.service
+  在开机时禁用一个服务：systemctl disable 服务名
+  systemctl disable firewalld.service
+  查看服务是否开机启动：systemctl is-enabled 服务名
+  systemctl is-enabled firewalld.service
+  查看已启动的服务列表：systemctl list-unit-files|grep enabled
+  查看启动失败的服务列表：systemctl --failed
+
+  3.配置firewalld-cmd
+  查看版本：
+  firewall-cmd --version
+  查看帮助：
+  firewall-cmd --help
+  显示状态：
+  firewall-cmd --state
+  查看所有打开的端口：
+  firewall-cmd --zone=public --list-ports
+  更新防火墙规则：
+  firewall-cmd --reload
+  查看区域信息:
+  firewall-cmd --get-active-zones
+  查看指定接口所属区域：
+  firewall-cmd --get-zone-of-interface=eth0
+  拒绝所有包：
+  firewall-cmd --panic-on
+  取消拒绝状态：
+  firewall-cmd --panic-off
+  查看是否拒绝：
+  firewall-cmd --query-panic
+
+  4.那怎么开启一个端口呢
+  添加
+  firewall-cmd --zone=public --add-port=80/tcp --permanent    （--permanent永久生效，没有此参数重启后失效）
+  重新载入
+  firewall-cmd --reload
+  查看
+  firewall-cmd --zone= public --query-port=80/tcp
+  删除
+  firewall-cmd --zone= public --remove-port=80/tcp --permanent
+
+  查看防火墙状态：
+  firewall-cmd --state( centos 7 )
+
+  临时关闭防火墙：
+  service iptables stop( centos 6 )
+  systemctl stop firewalld( centos 7 )
+  禁止开机启动：
+  chkconfig iptables off( centos 6 )
+  systemctl disable firewalld( centos 7 )
+  或 systemctl disable firewalld.service
+
+* git
+  1 git 命令行提交代码
+  拉取服务器代码：提交代码之前，需先从服务器上拉取代码，以免覆盖别人代码
+  git pull
+  查看当前工作目录树的工作修改状态
+  git status
+  -- untracked 未跟踪，此文件在文件夹中，但没有加入到git库中，不参与版本控制，通过git add 状态变为 Staged
+  -- Modified文件已修改，仅修改，没有进行其他操作
+  -- deleted
+  -- renamed
+  将状态改变的代码提交至缓存
+  git add 文件
+  git add -u path/(modified tracked) file
+  git add -A path/(modified untracked) file
+  将代码提交到本地仓库
+  git commit -m "注释，即 GitHub-desktop 中 summary 部分"
+  将代码推送至服务器
+  git push
