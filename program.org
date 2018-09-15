@@ -44,31 +44,31 @@
 
 *** dbclear, 清除断点
 #+BEGIN_QUOTE
-dbclear /func/
+*dbclear* /func/
 
-dbclear /func line/
+*dbclear* /func line/
 
-dbclear /func line1 line2/
+*dbclear* /func line1 line2/
 
-dbclear /line .../
+*dbclear* /line .../
 
-dbclear /in func/
+*dbclear* /in func/
 
-dbclear /in func at line/
+*dbclear* /in func at line/
 
-dbclear if event
+*dbclear* /if event/
 
-dbclear ("/func")/
+*dbclear* /("/func/")
 
-dbclear ("func",line)
+*dbclear* /("func",line)/
 
-dbclear ("func",line1,line2,...)
+*dbclear* /("func",line1,line2,...)/
 
-dbclear ("func",line1,...)
+*dbclear* /("func",line1,...)/
 
-dbclear (line,...)
+*dbclear* /(line,...)/
 
-dbclear ("all")
+*dbclear* /("all")/
 #+END_QUOTE
 
 *** dbstep
