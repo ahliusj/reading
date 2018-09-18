@@ -1,6 +1,6 @@
 #+TOC: headlines 2
 
-* 网络配置
+** 网络配置
   - 网络配置文件：
   #+BEGIN_SRC shell
   /etc/sysconfig/network-scripts/ifcfg-
@@ -22,7 +22,7 @@
   #+END_SRC
 
 
-* 远程连接
+** 远程连接
   - ssh [-f] [-o 参数项目] [-p 非默认端口(默认为 22 )] [账号@]IP [指令]
   -f:主机上执行指令，界面跳回客户端，即不等待主机上指令的执行过程
 
@@ -74,7 +74,7 @@ $ yum install openssh-server
     #+END_SRC
 
 
-* 防火墙设置
+** 防火墙设置
   1. firewalld的基本使用
   - 启动：
     #+BEGIN_SRC shell
@@ -187,7 +187,7 @@ $ yum install openssh-server
   或 systemctl disable firewalld.service
 
 
-* git
+** git
   1 git 命令行提交代码
 
   拉取服务器代码：提交代码之前，需先从服务器上拉取代码，以免覆盖别人代码
@@ -212,7 +212,7 @@ $ yum install openssh-server
   git push
 
 
-* crontab
+** crontab
 主要有两种工作调度方式：
 - 一种是例行性的，就是每隔一定的周期要办的事项；
 - 一种是突发性的，就是做完以后就没有的那一种；
