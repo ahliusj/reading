@@ -1,4 +1,4 @@
-#+OPTIONS: ^:{} toc:nil H:5 num:0
+#+OPTIONS: ^:{} toc:t H:5 num:0
 
 * 网络配置
   - 网络配置文件：
