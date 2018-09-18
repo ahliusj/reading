@@ -2,6 +2,7 @@
 #+AUTHOR: Liu, Shijie
 #+LANGUAGE: zh
 #+TEXINFO_DIR_CATEGORY: Emacs
+#+OPTIONS: ^:{} toc:t H:5 num:0
 
 
 * 网络配置
