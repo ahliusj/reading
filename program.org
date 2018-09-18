@@ -1,7 +1,7 @@
 * 写在前头
 - 变量的表示方法
 
--
+
 
 * octave
 ** 安装
@@ -19,6 +19,7 @@
       #+BEGIN_SRC octave
       pkg load netcdf
       #+END_SRC
+
 
 ** 命令行下调试
 *** dbstop, 为程序设置断点
