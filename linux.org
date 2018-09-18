@@ -1,24 +1,10 @@
-#+OPTIONS: ^:{} toc:nil H:5 num:0
-* Linux 学习                                                                    :emacs:zh:
-  :PROPERTIES:
-  :ID:       o2b:24796fba-6de7-4712-b83e-b86969c31335
-  :POST_DATE: 2012-01-31 15:08:00
-  :POSTID:   268
-  :ARCHIVE_TIME: 2012-12-26 三 19:21
-  :ARCHIVE_FILE: ~/projs/mastering-emacs-in-one-year-guide/guide-zh.org
-  :ARCHIVE_CATEGORY: emacs
-  :UPDATE_DATE: 2014-10-18 03:04:56
-  :POST_SLUG: yi-nian-cheng-wei-emacs-gao-shou-xiang-shen-yi-yang-shi-yong-bian-ji-qi
-  :END:
-作者:
+#+TITLE: Linux 记录
+#+AUTHOR: Liu, Shijie
+#+LANGUAGE: zh
+#+TEXINFO_DIR_CATEGORY: Emacs
 
-版本号: 20180212
 
-更新时间: <2018-02-12>
-
-原创时间: <2012-01-31>
-
-** 网络配置
+* 网络配置
   - 网络配置文件：
   #+BEGIN_SRC shell
   /etc/sysconfig/network-scripts/ifcfg-
@@ -40,7 +26,7 @@
   #+END_SRC
 
 
-** 远程连接
+* 远程连接
   - ssh [-f] [-o 参数项目] [-p 非默认端口(默认为 22 )] [账号@]IP [指令]
   -f:主机上执行指令，界面跳回客户端，即不等待主机上指令的执行过程
 
@@ -92,7 +78,7 @@ $ yum install openssh-server
     #+END_SRC
 
 
-** 防火墙设置
+* 防火墙设置
   1. firewalld的基本使用
   - 启动：
     #+BEGIN_SRC shell
@@ -205,7 +191,7 @@ $ yum install openssh-server
   或 systemctl disable firewalld.service
 
 
-** git
+* git
   1 git 命令行提交代码
 
   拉取服务器代码：提交代码之前，需先从服务器上拉取代码，以免覆盖别人代码
@@ -230,7 +216,7 @@ $ yum install openssh-server
   git push
 
 
-** crontab
+* 例行性工作调度
 主要有两种工作调度方式：
 - 一种是例行性的，就是每隔一定的周期要办的事项；
 - 一种是突发性的，就是做完以后就没有的那一种；
