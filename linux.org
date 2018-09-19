@@ -1,0 +1,775 @@
+#+TITLE: Linux 学习记录
+
+#+AUTHOR: Liu, Shijie
+<<content>>
+
+<<table-of-contents>>
+** Table of Contents
+   :PROPERTIES:
+   :CUSTOM_ID: table-of-contents
+   :END:
+
+<<text-table-of-contents>>
+
+-  [[sec-1][网络配置]]
+-  [[sec-2][远程连接]]
+-  [[sec-3][防火墙设置]]
+-  [[sec-4][git]]
+-  [[sec-5][例行性工作调度]]
+
+   -  [[sec-5-1][循环执行的例行性工作调度]]
+
+      -  [[sec-5-1-1][建立和管理 crontab 条目]]
+
+         -  [[sec-5-1-1-1][通过 crontab 指令]]
+         -  [[sec-5-1-1-2][通过系统配置文件]]
+         -  [[sec-5-1-1-3][小结]]
+         -  [[sec-5-1-1-4][注意事项（编自鸟哥的）]]
+
+      -  [[sec-5-1-2][anacron 唤醒停机期间的工作任务]]
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-1" class="outline-2">
+#+END_HTML
+
+** 网络配置
+   :PROPERTIES:
+   :CUSTOM_ID: sec-1
+   :END:
+
+#+BEGIN_HTML
+  <div id="text-1" class="outline-text-2">
+#+END_HTML
+
+-  网络配置文件：
+
+#+BEGIN_HTML
+  <div class="org-src-container">
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    /etc/sysconfig/network-scripts/ifcfg-
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+-  重启网络：
+
+#+BEGIN_HTML
+  <div class="org-src-container">
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    systemctl restart network
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+-  查看网卡信息：
+
+#+BEGIN_HTML
+  <div class="org-src-container">
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    nmcli connection show
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+-  命令行模式下网卡修改：
+
+#+BEGIN_HTML
+  <div class="org-src-container">
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    nmtui
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-2" class="outline-2">
+#+END_HTML
+
+** 远程连接
+   :PROPERTIES:
+   :CUSTOM_ID: sec-2
+   :END:
+
+#+BEGIN_HTML
+  <div id="text-2" class="outline-text-2">
+#+END_HTML
+
+-  ssh [-f] [-o 参数项目] [-p 非默认端口(默认为 22 )] [账号@]IP [指令]
+
+-f:主机上执行指令，界面跳回客户端，即不等待主机上指令的执行过程
+
+-o:
+
+ConnectTimeout=秒数
+
+StrictHostKeyChecking=[yes|no|ask(预设)]:当第一次远程到一个主机时，会被询问
+"Are you sure you want to continue connecting (yes/no)? ".
+当批量执行时，每次问就会很麻烦，这时 StrictHostKeyChecking=no
+就是个不错的选择。
+
+#+BEGIN_EXAMPLE
+    $ ssh -f root@some_IP shutdown -h now
+#+END_EXAMPLE
+
+-  sftp
+-  scp [-pr] [-l 速率] file [账号@]主机:目录名 <==上传
+
+scp [-pr] [-l 速率] [账号@]主机:file 目录名 <==下载 -p
+：保留原本档案的权限数据； -r ：复制来源为目录时，可以复制整个目录
+(含子目录) -l ：可以限制传输的速度，单位为 Kbits/s ，例如 [-l 800]
+代表传输速限 100Kbytes/s
+
+-  查看是否安装了openssh-server：
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ yum list installed | grep openssh-server
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+-  如果没有安装，则安装openssh-server：
+
+#+BEGIN_HTML
+  <div class="org-src-container">
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    $ yum install openssh-server
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+-  sshd 服务配置文件
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ /etc/ssh/sshd_config
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+-  开启 sshd 服务
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ sudo service sshd start
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+-  检查 sshd 服务是否已经开启：
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ ps -e | grep sshd
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+-  检查 22 号端口是否开启监听：
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ netstat -an | grep 22
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-3" class="outline-2">
+#+END_HTML
+
+** 防火墙设置
+   :PROPERTIES:
+   :CUSTOM_ID: sec-3
+   :END:
+
+#+BEGIN_HTML
+  <div id="text-3" class="outline-text-2">
+#+END_HTML
+
+1. firewalld的基本使用
+2. 启动：
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ systemctl start firewalld
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+3. 关闭：
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ systemctl stop firewalld
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+4. 查看状态：
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ systemctl status firewalld
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+5. 开机禁用：
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ systemctl disable firewalld
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+6. 开机启用：
+
+   #+BEGIN_HTML
+     <div class="org-src-container">
+   #+END_HTML
+
+   #+BEGIN_EXAMPLE
+       $ systemctl enable firewalld
+   #+END_EXAMPLE
+
+   #+BEGIN_HTML
+     </div>
+   #+END_HTML
+
+7. systemctl是CentOS7的服务管理工具中主要的工具，它融合之前service和chkconfig的功能于一体。
+
+#+BEGIN_QUOTE
+  启动一个服务：systemctl start 服务名 systemctl start firewalld.service
+
+  关闭一个服务：systemctl stop 服务名 systemctl stop firewalld.service
+
+  重启一个服务：systemctl restart 服务名 systemctl restart
+  firewalld.service
+
+  显示一个服务的状态：systemctl status 服务名 systemctl status
+  firewalld.service
+
+  在开机时启用一个服务：systemctl enable 服务名 systemctl enable
+  firewalld.service
+
+  在开机时禁用一个服务：systemctl disable 服务名 systemctl disable
+  firewalld.service
+
+  查看服务是否开机启动：systemctl is-enabled 服务名 systemctl is-enabled
+  firewalld.service
+
+  查看已启动的服务列表：systemctl list-unit-files|grep enabled
+
+  查看启动失败的服务列表：systemctl --failed
+#+END_QUOTE
+
+3.配置firewalld-cmd 查看版本： firewall-cmd --version
+
+查看帮助： firewall-cmd --help
+
+显示状态： firewall-cmd --state
+
+查看所有打开的端口： firewall-cmd --zone=public --list-ports
+
+更新防火墙规则： firewall-cmd --reload
+
+查看区域信息: firewall-cmd --get-active-zones
+
+查看指定接口所属区域： firewall-cmd --get-zone-of-interface=eth0
+
+拒绝所有包： firewall-cmd --panic-on
+
+取消拒绝状态： firewall-cmd --panic-off
+
+查看是否拒绝： firewall-cmd --query-panic
+
+4.那怎么开启一个端口呢
+
+添加 firewall-cmd --zone=public --add-port=80/tcp --permanent
+（--permanent永久生效，没有此参数重启后失效）
+
+重新载入 firewall-cmd --reload
+
+查看 firewall-cmd --zone= public --query-port=80/tcp
+
+删除 firewall-cmd --zone= public --remove-port=80/tcp --permanent
+
+查看防火墙状态： firewall-cmd --state( centos 7 )
+
+临时关闭防火墙： service iptables stop( centos 6 ) systemctl stop
+firewalld( centos 7 )
+
+禁止开机启动： chkconfig iptables off( centos 6 ) systemctl disable
+firewalld( centos 7 ) 或 systemctl disable firewalld.service
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-4" class="outline-2">
+#+END_HTML
+
+** git
+   :PROPERTIES:
+   :CUSTOM_ID: sec-4
+   :END:
+
+#+BEGIN_HTML
+  <div id="text-4" class="outline-text-2">
+#+END_HTML
+
+1 git 命令行提交代码
+
+拉取服务器代码：提交代码之前，需先从服务器上拉取代码，以免覆盖别人代码
+git pull
+
+查看当前工作目录树的工作修改状态 git status -- untracked
+未跟踪，此文件在文件夹中，但没有加入到git库中，不参与版本控制，通过git
+add 状态变为 Staged -- Modified文件已修改，仅修改，没有进行其他操作 --
+deleted -- renamed
+
+将状态改变的代码提交至缓存 git add 文件 git add -u path/(modified
+tracked) file git add -A path/(modified untracked) file
+
+将代码提交到本地仓库 git commit -m "注释，即 GitHub-desktop 中 summary
+部分"
+
+将代码推送至服务器 git push
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-5" class="outline-2">
+#+END_HTML
+
+** 例行性工作调度
+   :PROPERTIES:
+   :CUSTOM_ID: sec-5
+   :END:
+
+#+BEGIN_HTML
+  <div id="text-5" class="outline-text-2">
+#+END_HTML
+
+主要有两种工作调度方式：
+
+-  一种是例行性的，就是每隔一定的周期要办的事项；
+-  一种是突发性的，就是做完以后就没有的那一种；
+
+针对这两种调度需求，Linux 提供了两种功能：
+
+-  at：at 是个可以处理仅执行一次就结束调度的指令。要执行 at，必须要有
+   atd 这个服务的支持。 *fedora27* 现在以及已经默认不安装 atd 服务。
+-  crontab: crontab
+   这个指令所设置的工作将会循环进行下去。可执行的时间分为分钟、小时、每周、每月和每年等。crontab
+   需要 cornd 服务的支持。
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-5-1" class="outline-3">
+#+END_HTML
+
+*** 循环执行的例行性工作调度
+    :PROPERTIES:
+    :CUSTOM_ID: sec-5-1
+    :END:
+
+#+BEGIN_HTML
+  <div id="text-5-1" class="outline-text-3">
+#+END_HTML
+
+crond 服务默认启动，系统提供使用者控制例行性工作调度的指令
+(crontab)。为了安全性考虑，可以限制使用 crontab
+的使用者账号。使用的限制性数据有：
+
+-  /etc/cron.allow: 将可以使用 crontab
+   的账号写入其中，若不在这个文件内的使用者则不可以使用 crontab;
+-  /etc/cron.deny: 将不可以使用 crontab
+   的账号写入其中，若不在这个文件内的使用者则可以使用 crontab;
+
+从优先级上来说，/etc/cron.allow 比 /etc/cron.deny
+要高，这两个文件只选择一个来限制，因此，为不影响自己在设置上面的判断，只需保留一个即可。一般是
+/etc/cron.deny，添加黑名单比添加白名单方便一点。
+
+当使用者使用 crontab 来建立工作调度条目时，该调度条目会被记录到
+/var/spool/cron/中，以用户名来识别。不要直接编辑该文件，因为可能会破坏原有的语法结构而导致任务无法执行。
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-5-1-1" class="outline-4">
+#+END_HTML
+
+**** 建立和管理 crontab 条目
+     :PROPERTIES:
+     :CUSTOM_ID: sec-5-1-1
+     :END:
+
+#+BEGIN_HTML
+  <div id="text-5-1-1" class="outline-text-4">
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-5-1-1-1" class="outline-5">
+#+END_HTML
+
+***** 通过 crontab 指令
+      :PROPERTIES:
+      :CUSTOM_ID: sec-5-1-1-1
+      :END:
+
+#+BEGIN_HTML
+  <div id="text-5-1-1-1" class="outline-text-5">
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    [shijieliu@localhost ~]# crontab [-u username] [-l;-e;-r]
+    选项与参数：
+    -u ：只有 root 才能进行这个任务，亦即帮其他使用者创建/移除 crontab 工作调度；
+    -e ：编辑 crontab 的工作内容
+    -l ：查阅 crontab 的工作内容
+    -r ：移除所有的 crontab 的工作内容，若仅要移除一项，请用 -e 去编辑。
+#+END_EXAMPLE
+
+不在 /etc/cron.deny 中的使用者都可以直接使用 "crontab -e"
+来编辑例行性命令条目。
+*下达指令时以及脚本中最好使用绝对路径，避免找不到函数以及输出不明。*
+
+#+BEGIN_EXAMPLE
+    [shijieliu@localhost ~]# crontab -e
+    # 弹出 vi 编辑界面，按照上例的格式编辑即可， *注意* 是 5 颗星
+#+END_EXAMPLE
+
+#+BEGIN_center
+| 特殊字符   | 含义                                                       |
+|------------+------------------------------------------------------------|
+| *          | 代表任何时刻都可以接受                                     |
+| ，         | 分割时段，"3,6 * * * *" 表示第 3 和第 6 分钟               |
+| -          | 一段连续时间，"3-6 * * * *" 表示 3 到 6 分钟               |
+| /n         | n 表数字，表示“每隔 n 单位”，"*/5 * * * *" 表每隔 5 分钟   |
+
+#+END_center
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-5-1-1-2" class="outline-5">
+#+END_HTML
+
+***** 通过系统配置文件
+      :PROPERTIES:
+      :CUSTOM_ID: sec-5-1-1-2
+      :END:
+
+#+BEGIN_HTML
+  <div id="text-5-1-1-2" class="outline-text-5">
+#+END_HTML
+
+"crontab -e" 是针对使用者的 cron
+来设计的，对于例行性工作条目的管理，则可以通过管理系统文件的方式来进行。一般来说，crond
+默认有三个地方存放脚本配置文件：
+
+-  /etc/crontab
+-  /etc/cron.d/*
+-  /var/spool/cron/*
+
+#+BEGIN_EXAMPLE
+    [shijieliu@localhost ~]# cat /etc/crontab
+    SHELL=/bin/bash ; 使用哪种 shell 接口
+    PATH=/sbin:/bin:/usr/sbin:/usr/bin ; 可执行文件搜寻路径
+    MAILTO=root ; 若有额外STDOUT，以 email将数据送给谁
+
+    # Example of job definition:
+    # .---------------- minute (0 - 59)
+    # |  .------------- hour (0 - 23)
+    # |  |  .---------- day of month (1 - 31)
+    # |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+    # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+    # |  |  |  |  |
+    # *  *  *  *  * user-name  command to be executed
+#+END_EXAMPLE
+
+以上是 /etc/crontab 文件中的内容，系统会每分钟对该文件进行扫描。与
+crontab -e 的内容相比，不同的部分主要在前面的几行：
+
+-  PATH=... : 执行时搜索路径
+-  MAILTO=root : 当 /etc/crontab
+   中例行性工作执行发生错误时，或者该工作的执行结果有 STDOUT/STDERR
+   时，会将错误信息发送到指定用户的邮箱。
+
+#+BEGIN_EXAMPLE
+    [root@study ~]# ls -l /etc/cron.d
+    -rw-r--r--. 1 root root 128 Jul 30 2014 0hourly
+    -rw-r--r--. 1 root root 108 Mar 6 10:12 raid-check
+    -rw-------. 1 root root 235 Mar 6 13:45 sysstat
+    -rw-r--r--. 1 root root 187 Jan 28 2014 unbound-anchor
+    # 其实说真的，除了 /etc/crontab 之外，crond 的配置文件还不少耶！上面就有四个设置！
+    # 先让我们来瞧瞧 0hourly 这个配置文件的内容吧！
+    [root@study ~]# cat /etc/cron.d/0hourly
+    # Run the hourly jobs
+    SHELL=/bin/bash
+    PATH=/sbin:/bin:/usr/sbin:/usr/bin
+    MAILTO=root
+    01 * * * * root run-parts /etc/cron.hourly
+    # 瞧一瞧，内容跟 /etc/crontab 几乎一模一样！但实际上是有设置值喔！就是最后一行！
+#+END_EXAMPLE
+
+0hourly 文件中执行的函数为 run-parts,
+该函数会在一个设定的时间内随机选择一个时间点来执行/etc/cron.hourly
+目录内的所有可执行文件。具体的说，如果对定点执行要求不太严格，可以将脚本（或指令）放置到（或链接到）/etc/cron.hourly/
+目录下，该脚本就会被 crond 在每小时的 1 分开始后的 5
+分钟内，随机选取一个时间来执行。除了 cron.hourly，/etc 文件夹下还有
+cron.daily、cron.weekly 和 cron.monthly
+等文件，分别表示每日、每周、每月各执行一次。和 cron.hourly
+不同的是，这三个文件是由 anacron 所执行的。
+
+如果需要自定义例行性工作条例，并且不希望每次例行文件更新和重装系统后都要重新输入指令，可在
+/etc/cron.d/目录下建立自己的例行脚本文件。
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-5-1-1-3" class="outline-5">
+#+END_HTML
+
+***** 小结
+      :PROPERTIES:
+      :CUSTOM_ID: sec-5-1-1-3
+      :END:
+
+#+BEGIN_HTML
+  <div id="text-5-1-1-3" class="outline-text-5">
+#+END_HTML
+
+-  用户自己创建例行工作调度，可以直接使用 crontab
+   -e，这样也能保障自己的隐私，因为 /etc/crontab 大家都有读取的权限；
+-  系统维护管理使用“ vim /etc/crontab
+   ”：如果你这个例行工作调度是系统的重要工作，为了让自己管理方便，同时容易追踪，建议直接写入
+   /etc/crontab 较佳！
+-  自己开发软件使用“ vim /etc/cron.d/newfile
+   ”：如果你是想要自己开发软件，那当然最好就是使用全新的配置文件，并且放置于
+   /etc/cron.d/目录内即可。
+-  固定每小时、每日、每周、每天执行的特别工作：如果与系统维护有关，还是建议放置到
+   /etc/crontab 中来集中管理较好。
+   如果想要偷懒，或者是一定要再某个周期内进行的任务，也可以放置到上面谈到的几个目录中，直接写入指令即可！
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-5-1-1-4" class="outline-5">
+#+END_HTML
+
+***** 注意事项（编自鸟哥的）
+      :PROPERTIES:
+      :CUSTOM_ID: sec-5-1-1-4
+      :END:
+
+#+BEGIN_HTML
+  <div id="text-5-1-1-4" class="outline-text-5">
+#+END_HTML
+
+-  资源分配不均
+
+当大量使用 crontab
+的时候，可能会出现系统在某一时刻特别繁忙的情况，此时的处理办法之一是将任务分开来执行。
+
+#+BEGIN_EXAMPLE
+    [shijieliu@localhost ~]# vim /etc/crontab
+    1,6,11,16,21,26,31,36,41,46,51,56 * * * * shijieliu CMD1
+    2,7,12,17,22,27,32,37,42,47,52,57 * * * * shijieliu CMD2
+    3,8,13,18,23,28,33,38,43,48,53,58 * * * * shijieliu CMD3
+    4,9,14,19,24,29,34,39,44,49,54,59 * * * * shijieliu CMD4
+#+END_EXAMPLE
+
+-  取消不要的输出项目
+
+当有执行成果或者执行的命令中有输出数据时，这些数据会被 mail
+给指定的账户。 #+TODO 可以采用数据重定向将输出结果输出到 /dev/null 中。
+
+-  安全检查
+
+很多时候被植入木马都是以例行命令的方式植入的，所以可以借由检查
+/var/log/cron 的内容来视察是否有“非您设置的 cron 被执行了。
+
+-  周与日月不可同时并存
+
+容易引起混乱。
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="outline-container-sec-5-1-2" class="outline-4">
+#+END_HTML
+
+**** anacron 唤醒停机期间的工作任务
+     :PROPERTIES:
+     :CUSTOM_ID: sec-5-1-2
+     :END:
+
+#+BEGIN_HTML
+  <div id="text-5-1-2" class="outline-text-4">
+#+END_HTML
+
+解决的工况是：在该执行例行性任务时停机了，在开机后重新检查并执行任务。
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div id="postamble" class="status">
+#+END_HTML
+
+Author: Liu, Shijie
+
+Created: 2018-09-18 Tue 20:13
+
+[[http://www.gnu.org/software/emacs/][Emacs]] 25.3.1
+([[http://orgmode.org][Org]] mode 8.2.10)
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
