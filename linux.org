@@ -6,10 +6,147 @@
 
 
 * 网络配置
-  - 网络配置文件：
-  #+BEGIN_SRC shell
+** 案例：centos minimal 安装（virtualbox 下测试）
+- 选择 centos minimal ISO 安装；
+- 安装之后首先配置网络，输入 nmcli d 查看网络的连接情况，下面是配置之后的网络情况，初始时 enp0s3 状态是 disconnected；
+#+BEGIN_EXAMPLE
+[root@localhost shijieliu]# nmcli d
+DEVICE  TYPE      STATE      CONNECTION
+enp0s3  ethernet  connected  enp0s3
+lo      loopback  unmanaged  --
+#+END_EXAMPLE
+
+- 在终端输入 nmtui，打开网络管理器界面，依次 Edit a connection --> enp0s3 --> <Edit...> --> [X] Automatically connect --> OK。重启网络服务 systemctl restart network；
+
+- 此时，系统中 ipconfig 等命令并不能使用，可输入 ip a 查看结果；
+#+BEGIN_EXAMPLE
+[root@localhost shijieliu]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:b5:58:76 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global noprefixroute dynamic enp0s3
+       valid_lft 72435sec preferred_lft 72435sec
+    inet6 fe80::479:586:1f5f:4672/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+#+END_EXAMPLE
+
+- 此时应该可以连接互联网，ping 一下看看；
+
+- 安装网络工具包 net-tools，常用的 ifconfig 和 netstat 等命令即可使用；
+#+BEGIN_EXAMPLE
+yum install net-tools
+#+END_EXAMPLE
+
+- ssh 配置，检查 OpenSSH 是否安装，默认已经安装；
+#+BEGIN_EXAMPLE
+$ yum list installed | grep openssh-server
+#+END_EXAMPLE
+
+- 配置 /etc/ssh/sshd_config 文件；
+#+BEGIN_SRC shell
+Port 22  # 打开 22 号端口
+#AddressFamily any
+ListenAddress 0.0.0.0
+ListenAddress ::
+...
+PasswordAuthentication yes
+...
+UseDNS no  # 这一行很多网上教程都没有提到，在 virtualbox 环境中，配置这一行之后才能顺利 ssh 进来（XSHELL 中测试）
+
+#+END_SRC
+
+- virtualbox 环境中选择关闭防火墙；
+
+*** CentOS 添加 yum 源
+- 安装 EPEL 源，EPEL官网地址：https://fedoraproject.org/wiki/EPEL， CentOS用户可以直接安装并启用EPEL 源（需 root 权限）
+#+BEGIN_EXAMPLE
+[root@localhost shijieliu]# yum repolist
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.nwsuaf.edu.cn
+ * extras: mirrors.shu.edu.cn
+ * updates: mirrors.zju.edu.cn
+repo id                                        repo name                                        status
+base/7/x86_64                                  CentOS-7 - Base                                  9,911
+extras/7/x86_64                                CentOS-7 - Extras                                  403
+updates/7/x86_64                               CentOS-7 - Updates                               1,348
+repolist: 11,662
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+[root@localhost shijieliu]# yum install epel-release
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.nwsuaf.edu.cn
+ * extras: mirrors.shu.edu.cn
+ * updates: mirrors.zju.edu.cn
+Resolving Dependencies
+--> Running transaction check
+---> Package epel-release.noarch 0:7-11 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+======================================================================================================
+ Package                     Arch                  Version                Repository             Size
+======================================================================================================
+Installing:
+ epel-release                noarch                7-11                   extras                 15 k
+
+Transaction Summary
+======================================================================================================
+Install  1 Package
+
+Total download size: 15 k
+Installed size: 24 k
+Is this ok [y/d/N]: y
+Downloading packages:
+epel-release-7-11.noarch.rpm                                                   |  15 kB  00:00:15
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : epel-release-7-11.noarch                                                           1/1
+  Verifying  : epel-release-7-11.noarch                                                           1/1
+
+Installed:
+  epel-release.noarch 0:7-11
+
+Complete!
+#+END_EXAMPLE
+
+再查看源，EPEL 安装完成
+#+BEGIN_EXAMPLE
+[root@localhost shijieliu]# yum repolist
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.nwsuaf.edu.cn
+ * epel: mirrors.tuna.tsinghua.edu.cn
+ * extras: mirrors.shu.edu.cn
+ * updates: mirrors.zju.edu.cn
+repo id                          repo name                                                      status
+base/7/x86_64                    CentOS-7 - Base                                                 9,911
+epel/x86_64                      Extra Packages for Enterprise Linux 7 - x86_64                 12,686
+extras/7/x86_64                  CentOS-7 - Extras                                                 403
+updates/7/x86_64                 CentOS-7 - Updates                                              1,348
+repolist: 24,348
+#+END_EXAMPLE
+更多关于 yum 源配置：
+https://blog.itnmg.net/2012/09/17/centos-yum-source/
+https://www.tecmint.com/enable-rpmforge-repository/
+http://www.live-in.org/archives/998.html
+https://centos.pkgs.org/7/repoforge-x86_64/
+
+** 其他
+- 网络配置文件：
+  #+BEGIN_EXAMPLE
   /etc/sysconfig/network-scripts/ifcfg-
-  #+END_SRC
+  #+END_EXAMPLE
 
   - 重启网络：
   #+BEGIN_SRC shell
@@ -49,14 +186,14 @@
   -l ：可以限制传输的速度，单位为 Kbits/s ，例如 [-l 800] 代表传输速限 100Kbytes/s
 
   - 查看是否安装了openssh-server：
-    #+BEGIN_SRC shell
+    #+BEGIN_EXAMPLE
     $ yum list installed | grep openssh-server
-    #+END_SRC
+    #+END_EXAMPLE
 
   - 如果没有安装，则安装openssh-server：
-#+BEGIN_SRC shell
+#+BEGIN_EXAMPLE
 $ yum install openssh-server
-#+END_SRC
+#+END_EXAMPLE
 
   - sshd 服务配置文件
     #+BEGIN_SRC shell
