@@ -105,4 +105,6 @@
 #+END_QUOTE
 
 唐琬在写完这首《钗头凤》之后，泪流满面，回到家一病不起，不到一年就香消玉殒病逝了。
+#+BEGIN_CENTER
 [[./img/chaitoufeng_pai.jpeg]]
+#+END_CENTER
