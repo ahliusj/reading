@@ -218,3 +218,427 @@ real, parameter :: pi = 3.1415927
 | 逻辑与        | .and.     | 从左到右 |
 | 逻辑或        | .or.      | 从左到右 |
 | 赋值          | =         | 从右到左 |
+
+** 结构
+*** 选择结构
+| 语句                     | 描述                                                                                                                                                            |
+| If… then 结构            | if… then… end if 语句由一个逻辑表达式后跟一个或多个语句。                                                                                                       |
+| If… then...else 结构     | if… then语句可以后跟一个可选的 else statement, 它执行时，逻辑表达式为假。                                                                                       |
+| if...else if...else 结构 | if 语句构建体可具有一个或多个可选的 else-if 结构。当 if 条件不满足，则紧跟 else-if 执行。当 else-if 还失败，其继续 else-if 语句（如果有的话）被执行，依此类推。 |
+| 内嵌 if 结构             | 可以使用一个 if 或 else if 语句在另外一个 if 或 else if 语句内部                                                                                                |
+| select case 语句.        | Select Case语句允许一个变量的值对的列表，平等进行测试。                                                                                                         |
+| 内嵌select case 结构     | 可以使用一个SELECT CASE语句中的另一个选择case语句。                                                                                                             |
+**** if...then 语句结构
+#+BEGIN_SRC fortran
+[name:] if (logical expression) then
+   ! various statements
+   . . .
+end if [name]
+#+END_SRC
+示例，执行结果为：Grade A
+#+BEGIN_SRC fortran
+program markGradeA
+implicit none
+   real :: marks
+   ! assign marks
+   marks = 90.4
+   ! use an if statement to give grade
+
+   gr: if (marks > 90.0) then
+   print *, " Grade A"
+   end if gr
+end program markGradeA
+#+END_SRC
+**** if...then...else 语句结构
+#+BEGIN_SRC fortran
+[name:] if (logical expression) then
+   ! various statements
+   . . .
+   else
+   !other statement(s)
+   . . .
+end if [name]
+#+END_SRC
+示例，执行结果为：
+#+BEGIN_SRC fortran
+program ifElseProg
+implicit none
+   ! local variable declaration
+   integer :: a = 100
+
+   ! check the logical condition using if statement
+   if (a < 20 ) then
+
+   ! if condition is true then print the following
+   print*, "a is less than 20"
+   else
+   print*, "a is not less than 20"
+   end if
+
+   print*, "value of a is ", a
+
+end program ifElseProg
+#+END_SRC
+执行结果为：
+#+BEGIN_SRC fortran
+a is not less than 20
+value of a is 100
+#+END_fortran
+**** if...else if...else 语句结构
+#+BEGIN_SRC fortran
+[name:]
+if (logical expression 1) then
+   ! block 1
+else if (logical expression 2) then
+   ! block 2
+else if (logical expression 3) then
+   ! block 3
+else
+   ! block 4
+end if [name]
+#+END_SRC
+示例
+#+BEGIN_SRC fortran
+program ifElseIfElseProg
+implicit none
+
+   ! local variable declaration
+   integer :: a = 100
+
+   ! check the logical condition using if statement
+   if( a == 10 ) then
+
+      ! if condition is true then print the following
+      print*, "Value of a is 10"
+
+   else if( a == 20 ) then
+
+      ! if else if condition is true
+      print*, "Value of a is 20"
+
+   else if( a == 30 ) then
+
+      ! if else if condition is true
+      print*, "Value of a is 30"
+
+   else
+
+      ! if none of the conditions is true
+      print*, "None of the values is matching"
+
+   end if
+
+   print*, "exact value of a is ", a
+
+end program ifElseIfElseProg
+#+END_SRC
+**** 嵌套 if 语句结构
+#+BEGIN_SRC fortran
+if ( logical_expression 1) then
+   !Executes when the boolean expression 1 is true
+   …
+   if(logical_expression 2)then
+   ! Executes when the boolean expression 2 is true
+   …
+   end if
+end if
+#+END_SRC
+示例
+#+BEGIN_SRC fortran
+program nestedIfProg
+implicit none
+   ! local variable declaration
+   integer :: a = 100, b= 200
+
+   ! check the logical condition using if statement
+   if( a == 100 ) then
+
+   ! if condition is true then check the following
+
+   if( b == 200 ) then
+
+   ! if inner if condition is true
+   print*, "Value of a is 100 and b is 200"
+
+   end if
+   end if
+
+   print*, "exact value of a is ", a
+   print*, "exact value of b is ", b
+
+end program nestedIfProg
+#+END_SRC
+
+**** select case 结构
+#+BEGIN_SRC fortran
+[name:] select case (expression)
+   case (selector1)
+   ! some statements
+   ... case (selector2)
+   ! other statements
+   ...
+   case default
+   ! more statements
+   ...
+end select [name]
+#+END_SRC
+
+相当于MATLAB的 switch case 结构，
+- 在select 语句中使用的逻辑表达式可以是逻辑型，字符型或整型（但不是实型）的表达式。
+- 可以有任意数量的范围内选择一个case语句。每一种情况下后跟的值进行比较，以及可能是合乎逻辑的，字符或整数（但不是真正的）的表达，并确定哪个语句被执行。
+- 恒定表达的情况下，必须具有相同的数据类型，如在选择的变量，并且它必须是一个常量或文字。
+- 当被选择的变量等于以下这种情况的某一情况，该语句将执行，如果没有匹配，那直到下一个case语句为止。
+- 如果在选择的情况下（表达式）表达式不匹配任何的选择了，那么 default 块被执行。
+
+*示例*
+#+BEGIN_SRC fortran
+program selectCaseProg
+implicit none
+
+   ! local variable declaration
+   character :: grade = 'B'
+
+   select case (grade)
+
+      case ('A')
+      print*, "Excellent!"
+
+      case ('B')
+
+      case ('C')
+         print*, "Well done"
+
+      case ('D')
+         print*, "You passed"
+
+      case ('F')
+         print*, "Better try again"
+
+      case default
+         print*, "Invalid grade"
+
+   end select
+
+   print*, "Your grade is ", grade
+
+end program selectCaseProg
+#+END_SRC
+指定一个范围的选择 case(low:high)
+
+*示例*
+#+BEGIN_SRC fortran
+program selectCaseProg
+implicit none
+
+   ! local variable declaration
+   integer :: marks = 78
+
+   select case (marks)
+
+      case (91:100)
+         print*, "Excellent!"
+
+      case (81:90)
+         print*, "Very good!"
+
+      case (71:80)
+         print*, "Well done!"
+
+      case (61:70)
+         print*, "Not bad!"
+
+      case (41:60)
+         print*, "You passed!"
+
+      case (:40)
+         print*, "Better try again!"
+
+      case default
+         print*, "Invalid marks"
+
+   end select
+   print*, "Your marks is ", marks
+
+end program selectCaseProg
+#+END_SRC
+
+**** 嵌套 select case 语句结构
+#+BEGIN_SRC fortran
+select case(a)
+
+   case (100)
+      print*, "This is part of outer switch", a
+
+   select case(b)
+      case (200)
+         print*, "This is part of inner switch", a
+
+   end select
+
+end select
+#+END_SRC
+
+*** 循环结构
+| 循环类型     | 描述                                                               |
+|--------------+--------------------------------------------------------------------|
+| do循环       | 该构建体使得语句或一系列语句迭代进行，当一个给定的条件为真。       |
+| do while循环 | 重复声明语句或一组，当给定的条件为真。它测试的条件执行循环体之前。 |
+| 内嵌循环     | 可以使用一个或多个循环结构在其他循环结构里面。                     |
+
+循环控制语句
+| 控制语句 | 描述                                                                                       |
+|----------+--------------------------------------------------------------------------------------------|
+| exit     | 如果被执行exit语句则会退出该循环，并且该程序的继续执行第一个可执行语句结束之后的语句执行。 |
+| cycle    | 如果执行了一个循环语句，则程序继续到下一次迭代的起始位置。                                 |
+| stop     | 如果想执行的程序停止，可以插入声明一个stop语句                                             |
+**** do 循环
+#+BEGIN_SRC fortran
+do var = start, stop [,step]
+   ! statement(s)
+   …
+end do
+#+END_SRC
+*示例：1到10的阶乘*
+#+BEGIN_SRC fortran
+program factorial
+implicit none
+
+   ! define variables
+   integer :: nfact = 1
+   integer :: n
+
+   ! compute factorials
+   do n = 1, 10
+      nfact = nfact * n
+      ! print values
+      print*,  n, " ", nfact
+   end do
+
+end program factorial
+#+END_SRC
+
+**** do...while循环
+#+BEGIN_SRC fortran
+do while (logical expr)
+   statements
+end do
+#+END_SRC
+*示例*
+#+BEGIN_SRC fortran
+program factorial
+implicit none
+
+   ! define variables
+   integer :: nfact = 1
+   integer :: n = 1
+
+   ! compute factorials
+   do while (n <= 10)
+      nfact = nfact * n
+      n = n + 1
+      print*,  n, " ", nfact
+   end do
+end program factorial
+#+END_SRC
+
+**** 嵌套循环
+#+BEGIN_SRC fortran
+iloop: do i = 1, 3
+   print*, "i: ", i
+
+   jloop: do j = 1, 3
+      print*, "j: ", j
+
+      kloop: do k = 1, 3
+         print*, "k: ", k
+
+      end do kloop
+   end do jloop
+end do iloop
+#+END_SRC
+*示例*
+#+BEGIN_SRC fortran
+program nestedLoop
+implicit none
+
+   integer:: i, j, k
+
+   iloop: do i = 1, 3
+      jloop: do j = 1, 3
+         kloop: do k = 1, 3
+
+            print*, "(i, j, k): ", i, j, k
+
+         end do kloop
+      end do jloop
+   end do iloop
+
+end program nestedLoop
+#+END_SRC
+
+**** exit 语句
+#+BEGIN_SRC fortran
+program nestedLoop
+implicit none
+
+integer:: i, j, k
+   iloop: do i = 1, 3
+      jloop: do j = 1, 3
+         kloop: do k = 1, 3
+
+         print*, "(i, j, k): ", i, j, k
+
+         if (k==2) then
+            exit jloop
+         end if
+
+         end do kloop
+      end do jloop
+   end do iloop
+
+end program nestedLoop
+#+END_SRC
+
+**** Cycle语句(相当于 MATLAB 的 continue)
+#+BEGIN_SRC fortran
+program cycle_example
+implicit none
+
+   integer :: i
+
+   do i = 1, 20
+
+      if (i == 5) then
+         cycle
+      end if
+
+   print*, i
+   end do
+
+end program cycle_example
+#+END_SRC
+
+**** stop 语句
+#+BEGIN_SRC fortran
+program stop_example
+implicit none
+
+   integer :: i
+   do i = 1, 20
+
+      if (i == 5) then
+         stop
+      end if
+
+      print*, i
+   end do
+
+end program stop_example
+#+END_SRC
+*执行结果*
+#+BEGIN_SRC fortran
+1
+2
+3
+4
+#+END_SRC
