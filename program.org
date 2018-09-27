@@ -92,6 +92,7 @@
 退出调试模式，不执行后续程序，回到 octave 界面。
 
 * fortran
+一份 Fortran 网页版[[https://www.yiibai.com/fortran/][教程]]。
 一段简单的 Fortran 代码
 #+BEGIN_SRC fortran
 program addNumbers
@@ -111,7 +112,7 @@ program addNumbers
 end program addNumbers
 #+END_SRC
 
-** 基本语法
+** 基本语法、常变量及运算符
 - 所有Fortran程序start关键字程序和end关键字结束程序，然后是该程序的名称。
 - 隐无语句允许编译器检查所有的变量类型是正确声明。必须始终使用无隐在每个程序的开始。
 - 在Fortran语言注释开始使用感叹号(!)，因为在这之后的所有字符 (除字符串) 被编译器忽略。
@@ -124,7 +125,7 @@ end program addNumbers
   - 第一个字符必须是字母；
   - 区分大小写；
 
-** 数据类型
+*** 数据类型
 提供五种内在数据类型：整型 Integer；实型 Real；复数型 Complex；逻辑型 Logical；字符型 Character。
 #+begin_src fortran
 program division
@@ -152,6 +153,68 @@ implicit none
 end program division
 #+end_src
 
-** 变量
-*** 变量声明
-变量声明语法为
+*** 变量
+附上一个例子：
+#+begin_src fortran
+program variableTesting
+implicit none
+
+   ! declaring variables
+   integer :: total
+   real :: average
+   complex :: cx
+   logical :: done
+   character(len=80) :: message ! a string of 80 characters
+
+   !assigning values
+   total = 20000
+   average = 1666.67
+   done = .true.      ! .false. 注意前后的两个点
+   message = "A big Hello from Tutorials Yiibai"
+   cx = (3.0, 5.0) ! cx = 3.0 + 5.0i
+
+   Print *, total
+   Print *, average
+   Print *, cx
+   Print *, done
+   Print *, message
+
+end program variableTesting
+#+end_src
+
+*** 常量
+命名常量应该在程序或过程的开始声明，就像一个变量的类型声明，说明其名称和类型。命名常量与参数属性声明。parameter 为常量的标志。
+#+BEGIN_SRC fortran
+real, parameter :: pi = 3.1415927
+#+END_SRC
+
+*** 运算符
+- 算数运算符
+  - + - * /
+  - ** (乘方)
+- 关系运算符
+  - == .eq.
+  - /= .ne.
+  - >  .gt.
+  - <  .lt.
+  - >= .ge.
+  - <= .le.
+- 逻辑运算符
+  - .and.
+  - .or.
+  - .not.
+  - .eqv.
+  - .neqv.
+
+*** 运算符优先级
+| 分类          | 运算符    | 关联     |
+|---------------+-----------+----------|
+| 逻辑NOT和负号 | .not. (-) | 从左到右 |
+| 幂            | **        | 从左到右 |
+| 乘            | * /       | 从左到右 |
+| 加            | + -       | 从左到右 |
+| 关系          | < <= > >= | 从左到右 |
+| 相等          | == !=     | 从左到右 |
+| 逻辑与        | .and.     | 从左到右 |
+| 逻辑或        | .or.      | 从左到右 |
+| 赋值          | =         | 从右到左 |
