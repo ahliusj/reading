@@ -90,3 +90,68 @@
 
 *** dbquit
 退出调试模式，不执行后续程序，回到 octave 界面。
+
+* fortran
+一段简单的 Fortran 代码
+#+BEGIN_SRC fortran
+program addNumbers
+
+! This simple program adds two numbers
+   implicit none
+
+! Type declarations
+   real :: a, b, result
+
+! Executable statements
+   a = 12.0
+   b = 15.0
+   result = a + b
+   print *, 'The total is ', result
+
+end program addNumbers
+#+END_SRC
+
+** 基本语法
+- 所有Fortran程序start关键字程序和end关键字结束程序，然后是该程序的名称。
+- 隐无语句允许编译器检查所有的变量类型是正确声明。必须始终使用无隐在每个程序的开始。
+- 在Fortran语言注释开始使用感叹号(!)，因为在这之后的所有字符 (除字符串) 被编译器忽略。
+- print*命令在屏幕上显示数据。
+- 代码行缩进，是保持一个程序读取一个很好的做法。
+- Fortran语言允许大写和小写字母。 Fortran语言是区分大小写的，除了字符串常量。
+- 标识符用于标识一个变量、过程或任何其他用户定义的项目的名称，使用时需注意一下几点：
+  - 不能超过31个字符；
+  - 必须由字母数字字符和下划线组成；
+  - 第一个字符必须是字母；
+  - 区分大小写；
+
+** 数据类型
+提供五种内在数据类型：整型 Integer；实型 Real；复数型 Complex；逻辑型 Logical；字符型 Character。
+#+begin_src fortran
+program division
+implicit none
+
+   ! Define real variables
+   real :: p, q, realRes
+
+   ! Define integer variables
+   integer :: i, j, intRes
+
+   ! Assigning  values
+   p = 2.0
+   q = 3.0
+   i = 2
+   j = 3
+
+   ! floating point division
+   realRes = p/q
+   intRes = i/j
+
+   print *, realRes
+   print *, intRes
+
+end program division
+#+end_src
+
+** 变量
+*** 变量声明
+变量声明语法为
