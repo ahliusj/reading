@@ -1,3 +1,9 @@
+#+TITLE: 编程语言
+#+AUTHOR: Liu, Shijie
+#+LANGUAGE: zh
+#+TEXINFO_DIR_CATEGORY: Emacs
+#+OPTIONS: ^:{} toc:t H:5 num:0
+
 * 写在前头
 - 变量的表示方法
 
@@ -13,7 +19,7 @@
     - netcdf 包安装
       #+BEGIN_SRC shell
       $ yum install netcdf-devel
-      $ yum install netcdf-octave
+      $ yum install octave-netcdf
       #+END_SRC
     - 使用
       #+BEGIN_SRC octave
