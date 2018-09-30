@@ -369,7 +369,7 @@ Nodes) 提供了一种自适应的持续观测近海岸环境的一种方式。
     :CUSTOM_ID: sub:endurance_array
     :END:
 
-位于 Oregon line (上，44^{\circ} 39'N, 125^{\circ} W to coast) 到 Washington line
+位于 Oregon line (上，44^{o} 39'N, 125^{\circ} W to coast) 到 Washington line
  (下，47^{\circ} 0'N, 125^{\circ} W to
 coast) ，水深600m到25m。由下图左上角可以看出，有西向风垂直吹向Washington海岸，有上升流形成，此区域为持久观测的最佳地点。
 
