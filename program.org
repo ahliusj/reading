@@ -4,10 +4,22 @@
 #+TEXINFO_DIR_CATEGORY: Emacs
 #+OPTIONS: ^:{} toc:t H:5 num:0
 
+* 目录
+- [[#shell-%E8%84%9A%E6%9C%AC][shell 脚本]]
+
+- [[#octave][octave]]
+
+- [[#fortran][fortran]]
+
 * 写在前头
 - 变量的表示方法
 
 
+
+* shell 脚本
+
+** 环境变量
+- env，或 set 显示系统环境变量
 
 * octave
 ** 安装
@@ -96,6 +108,7 @@
 
 *** dbquit
 退出调试模式，不执行后续程序，回到 octave 界面。
+
 
 * fortran
 一份 Fortran 网页版[[https://www.yiibai.com/fortran/][教程]]。
