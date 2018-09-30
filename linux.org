@@ -217,6 +217,23 @@ $ yum install openssh-server
   将代码推送至服务器
   git push
 
+当本地和云上的文件都有修改时，会发生代码冲突
+#+begin_example
+error: Your local changes to the following files would be overwritten by merge:        protected/config/main.phpPlease, commit your changes or stash them before you can merge.
+#+end_example
+解决的方法有，
+- 如果希望保留服务器上的改动，仅仅并入新配置项，
+#+BEGIN_SRC shell
+git stash
+git pull
+git stash pop
+git diff -w +filename    ;;确认代码自动合并
+#+END_SRC
+- 如果希望用代码库中的文件完全覆盖本地文件，
+#+BEGIN_SRC shell
+git reset --hard
+git pull
+#+END_SRC
 
 * 例行性工作调度
 主要有两种工作调度方式：
