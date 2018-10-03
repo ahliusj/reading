@@ -22,6 +22,7 @@
 - exec
 
 - expr
+#+BEGIN_SRC shell
 expr - evaluate expressions
 
 SYNOPSIS
@@ -63,6 +64,8 @@ DESCRIPTION
 
        ARG1 + ARG2
               arithmetic sum of ARG1 and ARG2
+
+#+END_SRC
 
 - grep
 
