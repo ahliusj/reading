@@ -290,19 +290,19 @@ hello, userName
 *** 测试示例
 例：测试一个变量值是整数还是字符串
 #+BEGIN_SRC shell
-[shijieliu@localhost shell_script]$ i=5;expr $i \* 6 &> /dev/null;echo $?
+[userName@localhost shell_script]$ i=5;expr $i \* 6 &> /dev/null;echo $?
 0
-[shijieliu@localhost shell_script]$ i='sj';expr $i \* 6 &> /dev/null;echo $?
+[userName@localhost shell_script]$ i='sj';expr $i \* 6 &> /dev/null;echo $?
 2
 #+END_SRC
 
 例：使用expr match 进行整数判断
 #+BEGIN_SRC shell
-[shijieliu@localhost shell_script]$ ./isnum.sh shijie
+[userName@localhost shell_script]$ ./isnum.sh shijie
 shijie is not a num
-[shijieliu@localhost shell_script]$ ./isnum.sh 1123
+[userName@localhost shell_script]$ ./isnum.sh 1123
 1123 is a num
-[shijieliu@localhost shell_script]$ cat isnum.sh
+[userName@localhost shell_script]$ cat isnum.sh
 #!/bin/bash
 #
 #expr $1 + 2 &> /dev/null
@@ -316,7 +316,7 @@ fi
 #+END_SRC
 例：判断文件的扩展名是否符合要求
 #+BEGIN_SRC shell
-[shijieliu@localhost shell_script]$ cat issuffix.sh
+[userName@localhost shell_script]$ cat issuffix.sh
 #!/bin/bash
 #
 # if [[ `expr "$1" : ".*\.pub"` != 0 ]];    # 与下面一条语句二选一
@@ -327,9 +327,9 @@ then
 else
     echo "need file with .pub"
 fi
-[shijieliu@localhost shell_script]$ ./issuffix.sh sh.pub
+[userName@localhost shell_script]$ ./issuffix.sh sh.pub
 ok
-[shijieliu@localhost shell_script]$ ./issuffix.sh sh.pu
+[userName@localhost shell_script]$ ./issuffix.sh sh.pu
 need file with .pub
 #+END_SRC
 
@@ -450,73 +450,73 @@ array=($(命令))             ## 定义动态数组，将命令的执行结果�
 #+END_SRC
 *** 数组内元素的赋值、删除
 #+BEGIN_SRC shell
-[shijieliu@localhost shell_script]$ array=(1 2 3)     ## 数组赋值
-[shijieliu@localhost shell_script]$ echo ${array[*]}  ## 打印所有元素
+[userName@localhost shell_script]$ array=(1 2 3)     ## 数组赋值
+[userName@localhost shell_script]$ echo ${array[*]}  ## 打印所有元素
 1 2 3
-[shijieliu@localhost shell_script]$ echo ${array[@]}
+[userName@localhost shell_script]$ echo ${array[@]}
 1 2 3
-[shijieliu@localhost shell_script]$ echo ${#array[@]} ## 打印数组长度
+[userName@localhost shell_script]$ echo ${#array[@]} ## 打印数组长度
 3
-[shijieliu@localhost shell_script]$ echo ${#array[*]}
+[userName@localhost shell_script]$ echo ${#array[*]}
 3
-[shijieliu@localhost shell_script]$ array[3]=5        ## 追加赋值
-[shijieliu@localhost shell_script]$ echo ${array[*]}  ## 打印所有元素
+[userName@localhost shell_script]$ array[3]=5        ## 追加赋值
+[userName@localhost shell_script]$ echo ${array[*]}  ## 打印所有元素
 1 2 3 5
-[shijieliu@localhost shell_script]$ array[1]=4        ## 替换
-[shijieliu@localhost shell_script]$ echo ${array[*]}
+[userName@localhost shell_script]$ array[1]=4        ## 替换
+[userName@localhost shell_script]$ echo ${array[*]}
 1 4 3 5
-[shijieliu@localhost shell_script]$ unset array[1]    ## 删除元素
-[shijieliu@localhost shell_script]$ echo ${array[*]}
+[userName@localhost shell_script]$ unset array[1]    ## 删除元素
+[userName@localhost shell_script]$ echo ${array[*]}
 1 3 5
-[shijieliu@localhost shell_script]$ echo ${array[1]}  ## 删除后位置还在，无值
+[userName@localhost shell_script]$ echo ${array[1]}  ## 删除后位置还在，无值
 
-[shijieliu@localhost shell_script]$ echo ${array[3]}  ## 列表末尾元素仍然存在
+[userName@localhost shell_script]$ echo ${array[3]}  ## 列表末尾元素仍然存在
 5
-[shijieliu@localhost shell_script]$ unset array       ## 删除整个数组
-[shijieliu@localhost shell_script]$ echo ${array[*]}
+[userName@localhost shell_script]$ unset array       ## 删除整个数组
+[userName@localhost shell_script]$ echo ${array[*]}
 #+END_SRC
 *** 数组内容的截取、替换
 #+BEGIN_SRC shell
-[shijieliu@localhost shell_script]$ array=(1 2 3 4 5)
-[shijieliu@localhost shell_script]$ echo ${array[@]:1:3}  ## 截取1到3号元素
+[userName@localhost shell_script]$ array=(1 2 3 4 5)
+[userName@localhost shell_script]$ echo ${array[@]:1:3}  ## 截取1到3号元素
 2 3 4
-[shijieliu@localhost shell_script]$ array=(1 2 3 1 1)
-[shijieliu@localhost shell_script]$ echo ${array[@]/1/a}  ## 用a替换掉1
+[userName@localhost shell_script]$ array=(1 2 3 1 1)
+[userName@localhost shell_script]$ echo ${array[@]/1/a}  ## 用a替换掉1
 a 2 3 a a
 
-[shijieliu@localhost shell_script]$ array=(one two three four five)
-[shijieliu@localhost shell_script]$ echo ${array[*]}
+[userName@localhost shell_script]$ array=(one two three four five)
+[userName@localhost shell_script]$ echo ${array[*]}
 one two three four five
-[shijieliu@localhost shell_script]$ echo ${array[@]#o*}    ## 从左边开始匹配最短的数组元素，并删除
+[userName@localhost shell_script]$ echo ${array[@]#o*}    ## 从左边开始匹配最短的数组元素，并删除
 ne two three four five
-[shijieliu@localhost shell_script]$ echo ${array[@]##o*}   ## 从左边开始匹配最长的数组元素，并删除
+[userName@localhost shell_script]$ echo ${array[@]##o*}   ## 从左边开始匹配最长的数组元素，并删除
 two three four five
-[shijieliu@localhost shell_script]$ echo ${array[@]#t*}
+[userName@localhost shell_script]$ echo ${array[@]#t*}
 one wo hree four five
-[shijieliu@localhost shell_script]$ echo ${array[@]##t*}
+[userName@localhost shell_script]$ echo ${array[@]##t*}
 one four five
-[shijieliu@localhost shell_script]$ echo ${array[@]%f*}    ## 从右边开始匹配最短的数组元素，并删除
+[userName@localhost shell_script]$ echo ${array[@]%f*}    ## 从右边开始匹配最短的数组元素，并删除
 one two three
-[shijieliu@localhost shell_script]$ echo ${array[@]%%f*}   ## 从右边开始匹配最长的数组元素，并删除
+[userName@localhost shell_script]$ echo ${array[@]%%f*}   ## 从右边开始匹配最长的数组元素，并删除
 one two three
-[shijieliu@localhost shell_script]$ echo ${array[@]%r*}
+[userName@localhost shell_script]$ echo ${array[@]%r*}
 one two th fou five
-[shijieliu@localhost shell_script]$ echo ${array[@]%%r*}
+[userName@localhost shell_script]$ echo ${array[@]%%r*}
 one two th fou five
 #+END_SRC
 *** 数组引用
 #+BEGIN_SRC shell
-[shijieliu@localhost shell_script]$ array=(1 2 3)
-[shijieliu@localhost shell_script]$ echo $array
+[userName@localhost shell_script]$ array=(1 2 3)
+[userName@localhost shell_script]$ echo $array
 1
-[shijieliu@localhost shell_script]$ echo ${array[*]}
+[userName@localhost shell_script]$ echo ${array[*]}
 1 2 3
 
-[shijieliu@localhost shell_script]$ array=($(ls /etc/init.d/))
-[shijieliu@localhost shell_script]$ echo ${array[*]}
+[userName@localhost shell_script]$ array=($(ls /etc/init.d/))
+[userName@localhost shell_script]$ echo ${array[*]}
 functions netconsole network README
-[shijieliu@localhost shell_script]$ array=($(ls /etc/init.d/))
-[shijieliu@localhost shell_script]$ echo ${array[0]}
+[userName@localhost shell_script]$ array=($(ls /etc/init.d/))
+[userName@localhost shell_script]$ echo ${array[0]}
 functions            ## 序号从0开始
 #+END_SRC
 * For fun
