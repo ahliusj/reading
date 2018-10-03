@@ -1,0 +1,92 @@
+#+TITLE: GNU Octave
+#+AUTHOR: Liu, Shijie
+#+LANGUAGE: zh
+#+TEXINFO_DIR_CATEGORY: Emacs
+#+OPTIONS: ^:{} toc:t H:5 num:0
+
+* 安装
+** fedora 27 下
+    - octave 安装
+      #+BEGIN_SRC shell
+      $ yum install octave
+      #+END_SRC
+    - netcdf 包安装
+      #+BEGIN_SRC shell
+      $ yum install netcdf-devel
+      $ yum install octave-netcdf
+      #+END_SRC
+    - 使用
+      #+BEGIN_SRC octave
+      pkg load netcdf
+      #+END_SRC
+
+
+* 命令行下调试
+** dbstop, 为程序设置断点
+     #+BEGIN_SRC octave
+     dbstop /func/
+     dbstop func line
+     dbstop func line1 line2
+     dbstop line1
+     dbstop in func
+     dbstop in func at line
+     dbstop in func at line if "condition"
+     dbstop if event
+     dbstop if event ID
+     dbstop (bp_struct)
+     rline = dbstop
+     #+END_SRC
+
+** dbstatus, 反馈有效断点的位置
+   #+BEGIN_EXAMPLE
+   *dbstatus* /func/
+   bp_list = *dbstatus* ...
+   #+END_EXAMPLE
+
+** dbclear, 清除断点
+#+BEGIN_QUOTE
+*dbclear* /func/
+
+*dbclear* /func line/
+
+*dbclear* /func line1 line2/
+
+*dbclear* /line .../
+
+*dbclear* /in func/
+
+*dbclear* /in func at line/
+
+*dbclear* /if event/
+
+*dbclear* /("/func/")
+
+*dbclear* /("func",line)/
+
+*dbclear* /("func",line1,line2,...)/
+
+*dbclear* /("func",line1,...)/
+
+*dbclear* /(line,...)/
+
+*dbclear* /("all")/
+#+END_QUOTE
+
+** dbstep
+#+BEGIN_QUOTE
+*dbstep*
+
+*dbstep* /n/
+
+*dbstep* /in/
+
+*dbstep* /out/
+
+*dbnext*
+#+END_QUOTE
+
+** dbcont
+离开命令行调试模式，继续执行程序。
+
+** dbquit
+退出调试模式，不执行后续程序，回到 octave 界面。

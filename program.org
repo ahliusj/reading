@@ -5,8 +5,6 @@
 #+OPTIONS: ^:{} toc:t H:5 num:0
 
 * 目录
-- [[#shell-%E8%84%9A%E6%9C%AC][shell 脚本]]
-
 - [[#octave][octave]]
 
 - [[#fortran][fortran]]
@@ -16,68 +14,6 @@
 
 
 
-* shell 脚本
-- shebang，魔数，幻数
-#+BEGIN_SRC shell
-#!/bin/bash
-# comment lines
-#+END_SRC
-- 命令行下输入命令，没有给定路径时，系统默认到$PATH中查找；
-** 变量
-- 环境变量：作用域为当前 shell 进程及其子进程；
-
-  - export VARNAME=VALUE 或 VARNAME=VALUE；export VARNAME
-
-- 本地变量 (局部变量)：
-  - VARNAME=VALUE：本地变量，整个 bash 进程；
-  - local VARNAME=VALUE; 局部变量，
-- 位置变量：引用脚本位置
-- 特殊变量：
-  $?：上一个命令的执行状态返回值
-- 脚本在执行时会启动一个子 shell 进程
-  - 命令行中启动的脚本会继承当前 shell 环境变量；
-  - 系统自动执行的脚本（非命令行启动）需要自我定义需要的环境变量；
-- ‘’为强替换，“”为
-- 引用变量：${VARNAME}
-  - 在变量名不引起混淆的情况下，花括号可以省略；
-  - 
-- 撤销变量：unset VARNAME
-- 查看变量
-  - env, printenv, export：查看当前 shell 中的环境变量
-  - set 查看当前 shell 中的所有变量，包括环境变量
-
-** 条件测试
-*** 条件测试的表达式
-#+BEGIN_SRC shell
-[ expression ]   # 中括号中必须要有空格
-[[ expression ]]
-test expression
-#+END_SRC
-
-*** 整数测试：
-- -eq
-#+BEGIN_SRC shell
-[shijieliu@localhost ~]$ a=3;b=6;[ $a -eq $b ];echo $?
-1
-#+END_SRC
-- -ne
-- -gt
-- -lt
-- -ge
-- -le
-*** 字符测试；
-*** 文件测试：
-*** 逻辑测试
-- &&
-#+BEGIN_SRC shell
-[shijieliu@localhost ~]$ id shijieliu &> /dev/null && echo "hello, $USER"
-hello, shijieliu
-#+END_SRC
-- ||
-- !
-#+BEGIN_SRC shell
-[shijieliu@localhost ~]$ ! id shijieliu && useradd shijieliu
-#+END_SRC
 * octave
 ** 安装
 *** fedora 27 下
