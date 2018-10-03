@@ -11,13 +11,19 @@
   - [[#%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95][条件测试]]
 
 * 指令
+- awk
+
 - cut
+
+- echo
+
+- eval
+
+- exec
 
 - grep
 
 - sed
-
-- awk
 
 * shell 脚本
 - shebang，魔数，幻数
@@ -133,7 +139,6 @@ else
   statemen6
 fi
 #+END_SRC
-
 
 * For fun
 ** PS1
