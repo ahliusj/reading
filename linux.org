@@ -21,6 +21,49 @@
 
 - exec
 
+- expr
+expr - evaluate expressions
+
+SYNOPSIS
+       expr EXPRESSION
+       expr OPTION
+
+DESCRIPTION
+       --help display this help and exit
+
+       --version
+              output version information and exit
+
+       Print  the  value of EXPRESSION to standard output.  A blank line below separates increasing
+       precedence groups.  EXPRESSION may be:
+
+       ARG1 | ARG2
+              ARG1 if it is neither null nor 0, otherwise ARG2
+
+       ARG1 & ARG2
+              ARG1 if neither argument is null or 0, otherwise 0
+
+       ARG1 < ARG2
+              ARG1 is less than ARG2
+
+       ARG1 <= ARG2
+              ARG1 is less than or equal to ARG2
+
+       ARG1 = ARG2
+              ARG1 is equal to ARG2
+
+       ARG1 != ARG2
+              ARG1 is unequal to ARG2
+
+       ARG1 >= ARG2
+              ARG1 is greater than or equal to ARG2
+
+       ARG1 > ARG2
+              ARG1 is greater than ARG2
+
+       ARG1 + ARG2
+              arithmetic sum of ARG1 and ARG2
+
 - grep
 
 - sed
@@ -32,27 +75,6 @@
 # comment lines
 #+END_SRC
 - 命令行下输入命令，没有给定路径时，系统默认到$PATH中查找；
-** 辅助
-| 算数运算符   | 含义       |
-| +、-         | 加、减     |
-| *、/、%       | 乘、除、模 |
-| **            | 幂运算     |
-| ++、--       |            |
-| !、&&、\vert | 非、与、或 |
-|              |            |
-- 算术运算：
-  - + - * /
-  - %（求余），==（相等），=，!=，!（非），-o（或），-a（与）
-  - 执行方法
-    - let 算术运算表达式
-    - $[算术运算表达式]
-    - ((算术运算表达式))
-    - expr 算术运算表达式:  表达式中各操作数及运算符之间要有空格
-- 测试脚本执行
-  - bash -n 脚本：检查脚本（主要）错误
-  - bash -x 脚本：单步执行脚本
-- 退出脚本
-  - exit #(数字，0为正确执行，1-255为执行错误)
 ** 变量
 *** 变量类型
 - 环境变量：作用域为当前 shell 进程及其子进程；
@@ -83,24 +105,58 @@
   - env, printenv, export：查看当前 shell 中的环境变量
   - set 查看当前 shell 中的所有变量，包括环境变量
 
+** 数值计算
+*** 算数运算符
+| 算数运算符            | 含义                   |
+|-----------------------+------------------------|
+| +、-                  | 加、减                 |
+| *、/、%                | 乘、除、模             |
+| **                     | 幂运算                 |
+| ++、--                |                        |
+| !、&&、\vert\vert     | 逻辑非、逻辑与、逻辑或 |
+| <、<=、>、>=          |                        |
+| ==、!=、=             |                        |
+| <<、>>                | 左移位、右移位         |
+| ~、\vert、&、^        | 按位取反、异或、与、或 |
+| =、+=、-=、*=、/=、%= |                        |
+
+| 运算操作符 | 含义                                    |
+|------------+-----------------------------------------|
+| (())       | 用于整数运算， *效率很高* ，常用          |
+| let        | 整数运算                                |
+| expr       | 整数运算，还有其他功能                  |
+| bc         | Linux下的计算器程序，适合整数和小数运算 |
+| $[]        | 整数运算                                |
+| awk        | 整数和小数运算                          |
+| declare    | 定义变量和属性                          |
+*注* ：expr 执行 * 时，需加"\"，如 "expr 2 \* 3"，否则提示语法错误；
+
+*** 执行方法
+  - let 算术运算表达式
+  - $[算术运算表达式]
+  - ((算术运算表达式))
+  - expr 算术运算表达式:  表达式中各操作数及运算符之间要有空格
+
 ** 字符串操作
 *** 字符串截取、删除和替换
 | 表达式                | 说明                                            |
+|-----------------------+-------------------------------------------------|
 | ${var}                | 返回变量var的内容                               |
 | ${var}                | 返回变量var的内容的长度（字符），适用于特殊变量 |
 | ${var:offset}         | 从offset提取字符串到结尾                        |
 | ${var:offset:length}  | 从offset位置开始提取长度为length的子字符串      |
-| ${var#"word"}           | 从开头开始删除最短匹配的"word"子串                |
-| ${var##"word"}          | 从开头开始删除最长匹配的"word"子串                |
-| ${var%"word"}           | 从结尾开始删除最短匹配的"word"子串                |
-| ${var%%"word"}          | 从结尾开始删除最长匹配的"word"子串                |
+| ${var#"word"}         | 从开头开始删除最短匹配的"word"子串              |
+| ${var##"word"}        | 从开头开始删除最长匹配的"word"子串              |
+| ${var%"word"}         | 从结尾开始删除最短匹配的"word"子串              |
+| ${var%%"word"}        | 从结尾开始删除最长匹配的"word"子串              |
 | ${var/pattern/string} | 用string代替第一个匹配的pattern                 |
 | ${var//patern/string} | 用string代替所有匹配的pattern                   |
 
 *** 字符串检查与赋值
-| 表达式       | 说明                                                                    |
+| 表达式         | 说明                                                                      |
+|----------------+---------------------------------------------------------------------------|
 | ${var:-"word"} | 如果变量var为空或未赋值，则返回"word"字符串                               |
-| ${var:="word"} | 如果变量var为空或未赋值，则将"word"字符串赋给var，同时返回"word"            |
+| ${var:="word"} | 如果变量var为空或未赋值，则将"word"字符串赋给var，同时返回"word"          |
 | ${var:?"word"} | 如果变量var为空或未赋值，则"word"字符串将作为标准错误输出，否则输出变量值 |
 | ${var:+"word"} | 如果变量var为空或未赋值，则无动作，否则"word"字符串替换变量的值           |
 
@@ -120,6 +176,7 @@ hello
 [userName@localhost shell_script]$ echo $var2
 hello
 #+END_SRC
+
 
 ** 条件测试
 *** 条件测试表达式
@@ -162,6 +219,15 @@ hello, userName
 #+BEGIN_SRC shell
 [userName@localhost ~]$ ! id userName && useradd userName
 #+END_SRC
+*** 测试示例
+例：测试一个变量值是整数还是字符串
+#+BEGIN_SRC shell
+[shijieliu@localhost shell_script]$ i=5;expr $i \* 6 &> /dev/null;echo $?
+0
+[shijieliu@localhost shell_script]$ i='sj';expr $i \* 6 &> /dev/null;echo $?
+2
+#+END_SRC
+
 ** 控制结构
 *** if 结构
 - 单分支 if 分支
@@ -184,6 +250,13 @@ else
   statemen6
 fi
 #+END_SRC
+
+** 其他
+- 测试脚本执行
+  - bash -n 脚本：检查脚本（主要）错误
+  - bash -x 脚本：单步执行脚本
+- 退出脚本
+  - exit #(数字，0为正确执行，1-255为执行错误)
 
 * For fun
 ** PS1
