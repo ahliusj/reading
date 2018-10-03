@@ -33,6 +33,13 @@
 #+END_SRC
 - 命令行下输入命令，没有给定路径时，系统默认到$PATH中查找；
 ** 辅助
+| 算数运算符   | 含义       |
+| +、-         | 加、减     |
+| *、/、%       | 乘、除、模 |
+| **            | 幂运算     |
+| ++、--       |            |
+| !、&&、\vert | 非、与、或 |
+|              |            |
 - 算术运算：
   - + - * /
   - %（求余），==（相等），=，!=，!（非），-o（或），-a（与）
@@ -76,18 +83,56 @@
   - env, printenv, export：查看当前 shell 中的环境变量
   - set 查看当前 shell 中的所有变量，包括环境变量
 
+** 字符串操作
+*** 字符串截取、删除和替换
+| 表达式                | 说明                                            |
+| ${var}                | 返回变量var的内容                               |
+| ${var}                | 返回变量var的内容的长度（字符），适用于特殊变量 |
+| ${var:offset}         | 从offset提取字符串到结尾                        |
+| ${var:offset:length}  | 从offset位置开始提取长度为length的子字符串      |
+| ${var#"word"}           | 从开头开始删除最短匹配的"word"子串                |
+| ${var##"word"}          | 从开头开始删除最长匹配的"word"子串                |
+| ${var%"word"}           | 从结尾开始删除最短匹配的"word"子串                |
+| ${var%%"word"}          | 从结尾开始删除最长匹配的"word"子串                |
+| ${var/pattern/string} | 用string代替第一个匹配的pattern                 |
+| ${var//patern/string} | 用string代替所有匹配的pattern                   |
+
+*** 字符串检查与赋值
+| 表达式       | 说明                                                                    |
+| ${var:-"word"} | 如果变量var为空或未赋值，则返回"word"字符串                               |
+| ${var:="word"} | 如果变量var为空或未赋值，则将"word"字符串赋给var，同时返回"word"            |
+| ${var:?"word"} | 如果变量var为空或未赋值，则"word"字符串将作为标准错误输出，否则输出变量值 |
+| ${var:+"word"} | 如果变量var为空或未赋值，则无动作，否则"word"字符串替换变量的值           |
+
+:-和:=方法示例：
+#+BEGIN_SRC shell
+[userName@localhost shell_script]$ echo $var1 $var2
+
+[userName@localhost shell_script]$ var2=${var1:-hello}
+[userName@localhost shell_script]$ echo $var1
+
+[userName@localhost shell_script]$ echo $var2
+hello
+[userName@localhost shell_script]$ unset var1 var2
+[userName@localhost shell_script]$ var2=${var1:=hello}
+[userName@localhost shell_script]$ echo $var1
+hello
+[userName@localhost shell_script]$ echo $var2
+hello
+#+END_SRC
+
 ** 条件测试
-*** 条件测试的表达式
+*** 条件测试表达式
 #+BEGIN_SRC shell
 [ expression ]   # 中括号中必须要有空格
 [[ expression ]]
 test expression
 #+END_SRC
 
-*** 整数测试：
+*** 整数测试
 - -eq
 #+BEGIN_SRC shell
-[shijieliu@localhost ~]$ a=3;b=6;[ $a -eq $b ];echo $?
+[userName@localhost ~]$ a=3;b=6;[ $a -eq $b ];echo $?
 1
 #+END_SRC
 - -ne
@@ -95,10 +140,10 @@ test expression
 - -lt
 - -ge
 - -le
-*** 字符测试；
+*** 字符测试
 - =：字符串
 
-*** 文件测试：
+*** 文件测试
 - -e FILE：测试文件是否存在
 - -f FILE：测试文件是否为普通文件
 - -d FILE：测试指定路径是否为目录
@@ -109,16 +154,16 @@ test expression
 *** 逻辑测试
 - &&
 #+BEGIN_SRC shell
-[shijieliu@localhost ~]$ id shijieliu &> /dev/null && echo "hello, $USER"
-hello, shijieliu
+[userName@localhost ~]$ id userName &> /dev/null && echo "hello, $USER"
+hello, userName
 #+END_SRC
 - ||
 - !
 #+BEGIN_SRC shell
-[shijieliu@localhost ~]$ ! id shijieliu && useradd shijieliu
+[userName@localhost ~]$ ! id userName && useradd userName
 #+END_SRC
-*** 控制结构
-**** if 结构
+** 控制结构
+*** if 结构
 - 单分支 if 分支
 #+BEGIN_SRC shell
 if 判断条件; then
@@ -143,7 +188,7 @@ fi
 * For fun
 ** PS1
 #+BEGIN_SRC shell
-[shijieliu@localhost shell_script]$ echo $PS1
+[userName@localhost shell_script]$ echo $PS1
 [\u@\h \W]\$
 #+END_SRC
 PS1 定义了命令提示字符，可以自定义：
@@ -161,8 +206,8 @@ PS1 定义了命令提示字符，可以自定义：
 - # ：下达的第几个指令。
 - $ ：提示字符，如果是 root 时，提示字符为 # ，否则就是 $ 啰～
 #+BEGIN_SRC shell
-[shijieliu@localhost shell_script]$ PS1='[\u@\h \w \A #\#]\$ '
-[shijieliu@localhost ~/shell_script 05:11 #77]$
+[userName@localhost shell_script]$ PS1='[\u@\h \w \A #\#]\$ '
+[userName@localhost ~/shell_script 05:11 #77]$
 #+END_SRC
 **  bash 登入与欢迎：/etc/issue, /etc/motd
 
@@ -414,7 +459,7 @@ crond 服务默认启动，系统提供使用者控制例行性工作调度的�
 *** 建立和管理 crontab 条目
 **** 通过 crontab 指令
 #+BEGIN_EXAMPLE
-[shijieliu@localhost ~]# crontab [-u username] [-l;-e;-r]
+[userName@localhost ~]# crontab [-u username] [-l;-e;-r]
 选项与参数：
 -u ：只有 root 才能进行这个任务，亦即帮其他使用者创建/移除 crontab 工作调度；
 -e ：编辑 crontab 的工作内容
@@ -425,7 +470,7 @@ crond 服务默认启动，系统提供使用者控制例行性工作调度的�
 不在 /etc/cron.deny 中的使用者都可以直接使用 "crontab -e" 来编辑例行性命令条目。
 *下达指令时以及脚本中最好使用绝对路径，避免找不到函数以及输出不明。*
 #+BEGIN_EXAMPLE
-[shijieliu@localhost ~]# crontab -e
+[userName@localhost ~]# crontab -e
 # 弹出 vi 编辑界面，按照上例的格式编辑即可， *注意* 是 5 颗星
 #+END_EXAMPLE
 
@@ -446,7 +491,7 @@ crond 服务默认启动，系统提供使用者控制例行性工作调度的�
 
 #+CAPTION: Example of jod definition in crontab
 #+BEGIN_EXAMPLE
-[shijieliu@localhost ~]# cat /etc/crontab
+[userName@localhost ~]# cat /etc/crontab
 SHELL=/bin/bash ; 使用哪种 shell 接口
 PATH=/sbin:/bin:/usr/sbin:/usr/bin ; 可执行文件搜寻路径
 MAILTO=root ; 若有额外STDOUT，以 email将数据送给谁
@@ -496,11 +541,11 @@ MAILTO=root
 - 资源分配不均
 当大量使用 crontab 的时候，可能会出现系统在某一时刻特别繁忙的情况，此时的处理办法之一是将任务分开来执行。
 #+BEGIN_EXAMPLE
-    [shijieliu@localhost ~]# vim /etc/crontab
-    1,6,11,16,21,26,31,36,41,46,51,56 * * * * shijieliu CMD1
-    2,7,12,17,22,27,32,37,42,47,52,57 * * * * shijieliu CMD2
-    3,8,13,18,23,28,33,38,43,48,53,58 * * * * shijieliu CMD3
-    4,9,14,19,24,29,34,39,44,49,54,59 * * * * shijieliu CMD4
+    [userName@localhost ~]# vim /etc/crontab
+    1,6,11,16,21,26,31,36,41,46,51,56 * * * * userName CMD1
+    2,7,12,17,22,27,32,37,42,47,52,57 * * * * userName CMD2
+    3,8,13,18,23,28,33,38,43,48,53,58 * * * * userName CMD3
+    4,9,14,19,24,29,34,39,44,49,54,59 * * * * userName CMD4
 #+END_EXAMPLE
 
 - 取消不要的输出项目
@@ -521,7 +566,7 @@ MAILTO=root
 - 安装之后首先配置网络，输入 nmcli d 查看网络的连接情况，下面是配置之后的网络情况，初始时 enp0s3 状态是 disconnected；
 
 #+BEGIN_EXAMPLE
-[root@localhost shijieliu]# nmcli d
+[root@localhost userName]# nmcli d
 DEVICE  TYPE      STATE      CONNECTION
 enp0s3  ethernet  connected  enp0s3
 lo      loopback  unmanaged  --
@@ -531,7 +576,7 @@ lo      loopback  unmanaged  --
 
 - 此时，系统中 ipconfig 等命令并不能使用，可输入 ip a 查看结果；
 #+BEGIN_EXAMPLE
-[root@localhost shijieliu]# ip a
+[root@localhost userName]# ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
@@ -576,7 +621,7 @@ UseDNS no  # 这一行很多网上教程都没有提到，在 virtualbox 环境�
 *** CentOS 添加 yum 源
 - 安装 EPEL 源，EPEL官网地址：https://fedoraproject.org/wiki/EPEL， CentOS用户可以直接安装并启用EPEL 源（需 root 权限）
 #+BEGIN_EXAMPLE
-[root@localhost shijieliu]# yum repolist
+[root@localhost userName]# yum repolist
 Loaded plugins: fastestmirror
 Loading mirror speeds from cached hostfile
  * base: mirrors.nwsuaf.edu.cn
@@ -590,7 +635,7 @@ repolist: 11,662
 #+END_EXAMPLE
 
 #+BEGIN_EXAMPLE
-[root@localhost shijieliu]# yum install epel-release
+[root@localhost userName]# yum install epel-release
 Loaded plugins: fastestmirror
 Loading mirror speeds from cached hostfile
  * base: mirrors.nwsuaf.edu.cn
@@ -633,7 +678,7 @@ Complete!
 
 再查看源，EPEL 安装完成
 #+BEGIN_EXAMPLE
-[root@localhost shijieliu]# yum repolist
+[root@localhost userName]# yum repolist
 Loaded plugins: fastestmirror
 Loading mirror speeds from cached hostfile
  * base: mirrors.nwsuaf.edu.cn
