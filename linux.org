@@ -340,6 +340,13 @@ echo ${#char}
 echo ${char} | wc -L
 echo ${char} | awk '{pring length($0)}'
 #+END_SRC
+*** 测试某package是否安装
+#+BEGIN_SRC shell
+[userName@localhost shell_script]$ [ `rpm -qa | grep -w "emacs" | wc -l` -gt 0 ] && echo 1 || echo 0
+1
+[userName@localhost shell_script]$ [ `rpm -qa | grep -w "emac" | wc -l` -gt 0 ] && echo 1 || echo 0
+0
+#+END_SRC
 ** 选择结构
 *** if 结构
 - 单分支 if 分支
