@@ -6,16 +6,17 @@
 
 * 目录
 - [[#%E6%8C%87%E4%BB%A4][指令]]
-- [[$shell-%E8%84%9A%E6%9C%AC][shell 脚本]]
+- [[#shell-%E8%84%9A%E6%9C%AC][shell 脚本]]
   - [[#%E5%8F%98%E9%87%8F][变量]]
   - [[#%E6%9D%A1%E4%BB%B6%E6%B5%8B%E8%AF%95][条件测试]]
-- [[#For\ fun][For fun]]
+- [[#For-fun][For fun]]
 - [[#%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE][网络配置]]
 - [[#%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5][远程连接]]
 - [[#%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE][防火墙设置]]
 - [[#git][git]]
 - [[#%E4%BE%8B%E8%A1%8C%E6%80%A7%E5%B7%A5%E4%BD%9C%E8%B0%83%E5%BA%A6][例行性工作调度]]
 - [[#%E6%A1%88%E4%BE%8B][案例]]
+  - [[#%E6%A1%88%E4%BE%8B%E4%B8%80centos-minimal-%E5%AE%89%E8%A3%85virtualbox-%E4%B8%8B%E6%B5%8B%E8%AF%95][案例一: centos minimal 安装(virtualbox 下测试)]]
 * 指令
 ** awk
 
@@ -908,7 +909,7 @@ MAILTO=root
 解决的工况是：在该执行例行性任务时停机了，在开机后重新检查并执行任务。
 
 * 案例
-** 案例：centos minimal 安装（virtualbox 下测试）
+** 案例一：centos minimal 安装（virtualbox 下测试）
 - 选择 centos minimal ISO 安装；
 - 安装之后首先配置网络，输入 nmcli d 查看网络的连接情况，下面是配置之后的网络情况，初始时 enp0s3 状态是 disconnected；
 
@@ -1047,3 +1048,219 @@ https://www.tecmint.com/enable-rpmforge-repository/
 http://www.live-in.org/archives/998.html
 
 https://centos.pkgs.org/7/repoforge-x86_64/
+
+** 案例二：VitualBox 扩容
+- 在windows下，使用 CMD 或 powershell，进入 virtualbox 安装目录，一般为“cd C:\Program Files\Oracle\VirtualBox”；
+- 查看当前虚拟机所有的虚拟硬盘
+#+BEGIN_SRC shell
+C:\Program Files\Oracle\VirtC:\Program Files\Oracle\VirtualBox> .\VBoxManage.exe list hdds
+。。。 其他省略 。。。
+UUID:           384a555c-9de1-481d-be3d-858b69d9ed80
+Parent UUID:    base
+State:          created
+Type:           normal (base)
+Location:       D:\VMs\centos7-roms.vdi
+Storage format: VDI
+Capacity:       256000 MBytes
+Encryption:     disabled
+#+END_SRC
+
+- 修改硬盘镜像文件大小
+#+BEGIN_SRC shell
+$ VBoxManage modifyhd YOUR_HARD_DISK.vdi –热随着SIZE_IN_MB
+其中YOUR_HARD_DISK.vdi用真实的虚拟机文件替代，SIZE_IN_MB则由调整后的空间大小替代。
+
+C:\Program Files\Oracle\VirtualBox> .\VBoxManage.exe modifyhd D:\VMs\centos7-roms.vdi --resize 512000
+0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
+C:\Program Files\Oracle\VirtualBox> .\VBoxManage.exe list hdds
+... 其他省略 ...
+UUID:           384a555c-9de1-481d-be3d-858b69d9ed80
+Parent UUID:    base
+State:          created
+Type:           normal (base)
+Location:       D:\VMs\centos7-roms.vdi
+Storage format: VDI
+Capacity:       512000 MBytes
+Encryption:     disabled
+#+END_SRC
+注意：此时虚拟机中并不能识别刚分配的空间。
+
+- 开启虚拟机，开始分区磁盘
+#+BEGIN_SRC shell
+[root@SJLiu ~]# fdisk /dev/sda
+Welcome to fdisk (util-linux 2.23.2).
+
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): n
+Partition type:
+   p   primary (3 primary, 0 extended, 1 free)
+   e   extended
+Select (default e): p
+Selected partition 4
+First sector (524288000-1048575999, default 524288000):
+Using default value 524288000
+Last sector, +sectors or +size{K,M,G} (524288000-1048575999, default 1048575999):
+Using default value 1048575999
+Partition 4 of type Linux and of size 250 GiB is set
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+Syncing disks.
+##
+[root@SJLiu ~]# mkfs.xfs /dev/sda4
+mkfs.xfs: /dev/sda4 appears to contain a partition table (dos).
+mkfs.xfs: Use the -f option to force overwrite.
+[root@SJLiu ~]# mkfs.xfs -f /dev/sda4
+meta-data=/dev/sda4              isize=512    agcount=4, agsize=16384000 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0, sparse=0
+data     =                       bsize=4096   blocks=65536000, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal log           bsize=4096   blocks=32000, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+[root@SJLiu ~]# pvcreate /dev/sda4
+WARNING: xfs signature detected on /dev/sda4 at offset 0. Wipe it? [y/n]: y
+  Wiping xfs signature on /dev/sda4.
+  Physical volume "/dev/sda4" successfully created.
+[root@SJLiu ~]# pvdisplay
+  --- Physical volume ---
+  PV Name               /dev/sda2
+  VG Name               centos
+  PV Size               <127.00 GiB / not usable 3.00 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              32511
+  Free PE               0
+  Allocated PE          32511
+  PV UUID               aUmycF-IIjE-4Of3-wgLE-W6sR-aFNo-HjZ67R
+
+  --- Physical volume ---
+  PV Name               /dev/sda3
+  VG Name               centos
+  PV Size               122.00 GiB / not usable 4.00 MiB
+  Allocatable           yes
+  PE Size               4.00 MiB
+  Total PE              31231
+  Free PE               286
+  Allocated PE          30945
+  PV UUID               kA6SMr-W0p0-rGq0-UwEm-0yfs-fCr1-zemRWf
+
+  "/dev/sda4" is a new physical volume of "250.00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/sda4
+  VG Name
+  PV Size               250.00 GiB
+  Allocatable           NO
+  PE Size               0
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               iZLSNN-xCaV-h0AA-Ro5w-xM2z-ybAg-kFeuWt
+
+[root@SJLiu ~]# vgdisplay
+  --- Volume group ---
+  VG Name               centos
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  7
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                3
+  Open LV               3
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               248.99 GiB
+  PE Size               4.00 MiB
+  Total PE              63742
+  Alloc PE / Size       63456 / <247.88 GiB
+  Free  PE / Size       286 / <1.12 GiB
+  VG UUID               KUrrTh-u4iv-edK6-RA9t-TMJc-xscq-WxgcFX
+
+[root@SJLiu ~]# vgextend centos /dev/sda4
+  Volume group "centos" successfully extended
+[root@SJLiu ~]# lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/centos/swap
+  LV Name                swap
+  VG Name                centos
+  LV UUID                GjgAW0-CUGP-JeW4-T1PX-Xj7d-4I0f-WoMp8R
+  LV Write Access        read/write
+  LV Creation host, time localhost, 2018-09-29 11:11:39 +0800
+  LV Status              available
+  # open                 2
+  LV Size                <7.88 GiB
+  Current LE             2016
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:1
+
+  --- Logical volume ---
+  LV Path                /dev/centos/home
+  LV Name                home
+  VG Name                centos
+  LV UUID                YfRiwR-f2uB-5tf4-bcBd-2PSH-Vw6Z-HcNiYU
+  LV Write Access        read/write
+  LV Creation host, time localhost, 2018-09-29 11:11:39 +0800
+  LV Status              available
+  # open                 1
+  LV Size                190.00 GiB
+  Current LE             48640
+  Segments               3
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+  --- Logical volume ---
+  LV Path                /dev/centos/root
+  LV Name                root
+  VG Name                centos
+  LV UUID                VuecKL-KgqC-K4zr-aeEr-SHx7-qLXC-7KshGV
+  LV Write Access        read/write
+  LV Creation host, time localhost, 2018-09-29 11:11:40 +0800
+  LV Status              available
+  # open                 1
+  LV Size                50.00 GiB
+  Current LE             12800
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:0
+
+[root@SJLiu ~]# lvextend -L 440G -n /dev/centos/home
+  Size of logical volume centos/home changed from 190.00 GiB (48640 extents) to 440.00 GiB (112640 extents).
+  Logical volume centos/home successfully resized.
+[root@SJLiu ~]# resize2fs /dev/centos/home
+resize2fs 1.42.9 (28-Dec-2013)
+resize2fs: Bad magic number in super-block while trying to open /dev/centos/home
+Couldn't find valid filesystem superblock.
+[root@SJLiu ~]# xfs_growfs /dev/centos/home
+meta-data=/dev/mapper/centos-home isize=512    agcount=11, agsize=4529664 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0 spinodes=0
+data     =                       bsize=4096   blocks=49807360, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal               bsize=4096   blocks=8847, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 49807360 to 115343360
+
+#+END_SRC
