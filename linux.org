@@ -17,6 +17,8 @@
 - [[#%E4%BE%8B%E8%A1%8C%E6%80%A7%E5%B7%A5%E4%BD%9C%E8%B0%83%E5%BA%A6][例行性工作调度]]
 - [[#%E6%A1%88%E4%BE%8B][案例]]
   - [[#%E6%A1%88%E4%BE%8B%E4%B8%80centos-minimal-%E5%AE%89%E8%A3%85virtualbox-%E4%B8%8B%E6%B5%8B%E8%AF%95][案例一: centos minimal 安装(virtualbox 下测试)]]
+  - [[#%E6%A1%88%E4%BE%8B%E4%BA%8Cvitualbox-%E6%89%A9%E5%AE%B9][案例二：vitualbox 扩容]]
+  - [[#%E6%A1%88%E4%BE%8B%E4%B8%89centos7-%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E][案例三：centos7 安装之后]]
 * 指令
 ** awk
 
@@ -29,85 +31,85 @@
 ** exec
 
 ** expr
-#+BEGIN_SRC shell
+#+begin_src shell
 expr - evaluate expressions
 
-SYNOPSIS
-       expr EXPRESSION
-       expr OPTION
+synopsis
+       expr expression
+       expr option
 
-DESCRIPTION
+description
        --help display this help and exit
 
        --version
               output version information and exit
 
-       Print  the  value of EXPRESSION to standard output.  A blank line below separates increasing
-       precedence groups.  EXPRESSION may be:
+       print  the  value of expression to standard output.  a blank line below separates increasing
+       precedence groups.  expression may be:
 
-       ARG1 | ARG2
-              ARG1 if it is neither null nor 0, otherwise ARG2
+       arg1 | arg2
+              arg1 if it is neither null nor 0, otherwise arg2
 
-       ARG1 & ARG2
-              ARG1 if neither argument is null or 0, otherwise 0
+       arg1 & arg2
+              arg1 if neither argument is null or 0, otherwise 0
 
-       ARG1 < ARG2
-              ARG1 is less than ARG2
+       arg1 < arg2
+              arg1 is less than arg2
 
-       ARG1 <= ARG2
-              ARG1 is less than or equal to ARG2
+       arg1 <= arg2
+              arg1 is less than or equal to arg2
 
-       ARG1 = ARG2
-              ARG1 is equal to ARG2
+       arg1 = arg2
+              arg1 is equal to arg2
 
-       ARG1 != ARG2
-              ARG1 is unequal to ARG2
+       arg1 != arg2
+              arg1 is unequal to arg2
 
-       ARG1 >= ARG2
-              ARG1 is greater than or equal to ARG2
+       arg1 >= arg2
+              arg1 is greater than or equal to arg2
 
-       ARG1 > ARG2
-              ARG1 is greater than ARG2
+       arg1 > arg2
+              arg1 is greater than arg2
 
-       ARG1 + ARG2
-              arithmetic sum of ARG1 and ARG2
+       arg1 + arg2
+              arithmetic sum of arg1 and arg2
 
-       ARG1 - ARG2
-              arithmetic difference of ARG1 and ARG2
+       arg1 - arg2
+              arithmetic difference of arg1 and arg2
 
-       ARG1 * ARG2
-              arithmetic product of ARG1 and ARG2
+       arg1 * arg2
+              arithmetic product of arg1 and arg2
 
-       ARG1 / ARG2
-              arithmetic quotient of ARG1 divided by ARG2
+       arg1 / arg2
+              arithmetic quotient of arg1 divided by arg2
 
-       ARG1 % ARG2
-              arithmetic remainder of ARG1 divided by ARG2
+       arg1 % arg2
+              arithmetic remainder of arg1 divided by arg2
 
-       STRING : REGEXP
-              anchored pattern match of REGEXP in STRING
+       string : regexp
+              anchored pattern match of regexp in string
 
-       match STRING REGEXP
-              same as STRING : REGEXP
+       match string regexp
+              same as string : regexp
 
-       substr STRING POS LENGTH
-              substring of STRING, POS counted from 1
+       substr string pos length
+              substring of string, pos counted from 1
 
-       index STRING CHARS
-              index in STRING where any CHARS is found, or 0
+       index string chars
+              index in string where any chars is found, or 0
 
-       length STRING
-              length of STRING
+       length string
+              length of string
 
-       + TOKEN
-              interpret TOKEN as a string, even if it is a
+       + token
+              interpret token as a string, even if it is a
 
               keyword like 'match' or an operator like '/'
 
-       ( EXPRESSION )
-              value of EXPRESSION
+       ( expression )
+              value of expression
 
-#+END_SRC
+#+end_src
 
 ** grep
 
@@ -117,11 +119,11 @@ DESCRIPTION
 
 * shell 脚本
 - shebang，魔数，幻数
-#+BEGIN_SRC shell
+#+begin_src shell
 #!/bin/bash
 # comment lines
-#+END_SRC
-- 命令行下输入命令，没有给定路径时，系统默认到$PATH中查找；
+#+end_src
+- 命令行下输入命令，没有给定路径时，系统默认到$path中查找；
 - 测试脚本执行
   - bash -n 脚本：检查脚本（主要）错误
   - bash -x 脚本：单步执行脚本
@@ -132,26 +134,26 @@ DESCRIPTION
 | 用法         | 说明                       |
 |--------------+----------------------------|
 | sh name.sh & | 将脚本放到后台执行（常用） |
-| Ctrl+c       | 停止执行当前脚本或任务     |
-| Ctrl+z       | 暂停执行                   |
+| ctrl+c       | 停止执行当前脚本或任务     |
+| ctrl+z       | 暂停执行                   |
 | bg           | 把当前脚本放到后台执行     |
-| fg N         | 把第N个脚本放到前台执行    |
+| fg n         | 把第n个脚本放到前台执行    |
 | jobs         | 查看当前执行的脚本或任务   |
-| kill %N      | 关闭第N个任务              |
+| kill %n      | 关闭第n个任务              |
 ** 变量
 *** 变量类型
 - 环境变量：作用域为当前 shell 进程及其子进程；
-  - export VARNAME=VALUE 或 VARNAME=VALUE；export VARNAME
+  - export varname=value 或 varname=value；export varname
 - 本地变量 (局部变量)：
-  - VARNAME=VALUE：本地变量，整个 bash 进程；
-  - local VARNAME=VALUE; 局部变量，
+  - varname=value：本地变量，整个 bash 进程；
+  - local varname=value; 局部变量，
 - 位置变量：
   - $0：获取当前执行脚本的文件名
   - $n：获取当前执行脚本的第n个参数值，n>10时，需用{}括起来，${11}
   - shift 参数轮替
 - 特殊变量：
   - $?：上一个命令的执行状态返回值
-  - $$：返回当前 shell 的 ID
+  - $$：返回当前 shell 的 id
   - $#：参数的个数
   - $*：参数列表，不加引号与$@相同，加上引号，则表示将所有参数视为单个字符串，相当于“$1 $2”
   - $@：参数列表，不加引号与$*相同，加上引号，则表示将每个参数视为单个字符串，相当于“$1“ ”$2”
@@ -160,10 +162,10 @@ DESCRIPTION
   - 命令行中启动的脚本会继承当前 shell 环境变量；
   - 系统自动执行的脚本（非命令行启动）需要自我定义需要的环境变量；
 - ‘’为强替换，“”为
-- 引用变量：${VARNAME}
+- 引用变量：${varname}
   - 在变量名不引起混淆的情况下，花括号可以省略；
   -
-- 撤销变量：unset VARNAME
+- 撤销变量：unset varname
 - 查看变量
   - env, printenv, export：查看当前 shell 中的环境变量
   - set 查看当前 shell 中的所有变量，包括环境变量
@@ -190,7 +192,7 @@ DESCRIPTION
 | (())       | 用于整数运算， *效率很高* ，常用          |
 | let        | 整数运算                                |
 | expr       | 整数运算，还有其他功能                  |
-| bc         | Linux下的计算器程序，适合整数和小数运算 |
+| bc         | linux下的计算器程序，适合整数和小数运算 |
 | $[]        | 整数运算                                |
 | awk        | 整数和小数运算                          |
 | declare    | 定义变量和属性                          |
@@ -220,29 +222,29 @@ DESCRIPTION
 | ${var:+"word"} | 如果变量var为空或未赋值，则无动作，否则"word"字符串替换变量的值           |
 
 :-和:=方法示例：
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ echo $var1 $var2
+#+begin_src shell
+[username@localhost shell_script]$ echo $var1 $var2
 
-[userName@localhost shell_script]$ var2=${var1:-hello}
-[userName@localhost shell_script]$ echo $var1
+[username@localhost shell_script]$ var2=${var1:-hello}
+[username@localhost shell_script]$ echo $var1
 
-[userName@localhost shell_script]$ echo $var2
+[username@localhost shell_script]$ echo $var2
 hello
-[userName@localhost shell_script]$ unset var1 var2
-[userName@localhost shell_script]$ var2=${var1:=hello}
-[userName@localhost shell_script]$ echo $var1
+[username@localhost shell_script]$ unset var1 var2
+[username@localhost shell_script]$ var2=${var1:=hello}
+[username@localhost shell_script]$ echo $var1
 hello
-[userName@localhost shell_script]$ echo $var2
+[username@localhost shell_script]$ echo $var2
 hello
-#+END_SRC
+#+end_src
 
 ** 条件测试
 *** 条件测试表达式
-#+BEGIN_SRC shell
+#+begin_src shell
 [ expression ]   # 中括号中必须要有空格
 [[ expression ]]
 test expression
-#+END_SRC
+#+end_src
 
 *** 整数测试
 | 在[]以及test中使用 | 在(())和[[]]中使用 | 说明 |
@@ -255,10 +257,10 @@ test expression
 | -le                |                    |      |
 *注* -eq等不可以在(())中使用，可以在[[]]中使用，但不推荐；\\
 <、>等在[]中使用，语法上可能没错，但逻辑结果不一定对；
-#+BEGIN_SRC shell
-[userName@localhost ~]$ a=3;b=6;[ $a -eq $b ];echo $?
+#+begin_src shell
+[username@localhost ~]$ a=3;b=6;[ $a -eq $b ];echo $?
 1
-#+END_SRC
+#+end_src
 
 *** 字符测试
 | -n "string"     | 字符串长度不为0，为真             |
@@ -268,14 +270,14 @@ test expression
 *注* 比较时，需将字符串加上双引号，如[ -n "$myvar" ]
 
 *** 文件测试
-| -e FILE   | 测试文件（目录）是否存在             |
-| -f FILE   | 测试文件（目录）是否为普通文件       |
-| -d FILE   | 测试指定路径是否为目录               |
-| -r FILE   | 测试当前用户对指定文件是否有读取权限 |
-| -w FILE   | 测试当前用户对指定文件是否有写入权限 |
-| -x FILE   | 测试当前用户对指定文件是否有执行权限 |
-| -s FILE   | 文件存在且大小不为0，为真            |
-| -L FILE   | 链接文件                             |
+| -e file   | 测试文件（目录）是否存在             |
+| -f file   | 测试文件（目录）是否为普通文件       |
+| -d file   | 测试指定路径是否为目录               |
+| -r file   | 测试当前用户对指定文件是否有读取权限 |
+| -w file   | 测试当前用户对指定文件是否有写入权限 |
+| -x file   | 测试当前用户对指定文件是否有执行权限 |
+| -s file   | 文件存在且大小不为0，为真            |
+| -l file   | 链接文件                             |
 | f1 -nt f2 | newer than                           |
 | f1 -ot f2 | older than                           |
 
@@ -286,30 +288,30 @@ test expression
 | -o                 | \vert\vert         |      |
 | !                  | !                  |      |
 
-#+BEGIN_SRC shell
-[userName@localhost ~]$ id userName &> /dev/null && echo "hello, $USER"
-hello, userName
-#+END_SRC
+#+begin_src shell
+[username@localhost ~]$ id username &> /dev/null && echo "hello, $user"
+hello, username
+#+end_src
 
-#+BEGIN_SRC shell
-[userName@localhost ~]$ ! id userName && useradd userName
-#+END_SRC
+#+begin_src shell
+[username@localhost ~]$ ! id username && useradd username
+#+end_src
 *** 测试示例
 例：测试一个变量值是整数还是字符串
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ i=5;expr $i \* 6 &> /dev/null;echo $?
+#+begin_src shell
+[username@localhost shell_script]$ i=5;expr $i \* 6 &> /dev/null;echo $?
 0
-[userName@localhost shell_script]$ i='sj';expr $i \* 6 &> /dev/null;echo $?
+[username@localhost shell_script]$ i='sj';expr $i \* 6 &> /dev/null;echo $?
 2
-#+END_SRC
+#+end_src
 
 例：使用expr match 进行整数判断
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ ./isnum.sh shijie
+#+begin_src shell
+[username@localhost shell_script]$ ./isnum.sh shijie
 shijie is not a num
-[userName@localhost shell_script]$ ./isnum.sh 1123
+[username@localhost shell_script]$ ./isnum.sh 1123
 1123 is a num
-[userName@localhost shell_script]$ cat isnum.sh
+[username@localhost shell_script]$ cat isnum.sh
 #!/bin/bash
 #
 #expr $1 + 2 &> /dev/null
@@ -320,10 +322,10 @@ then
 else
     echo "$1 is not a num"
 fi
-#+END_SRC
+#+end_src
 例：判断文件的扩展名是否符合要求
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ cat issuffix.sh
+#+begin_src shell
+[username@localhost shell_script]$ cat issuffix.sh
 #!/bin/bash
 #
 # if [[ `expr "$1" : ".*\.pub"` != 0 ]];    # 与下面一条语句二选一
@@ -334,37 +336,37 @@ then
 else
     echo "need file with .pub"
 fi
-[userName@localhost shell_script]$ ./issuffix.sh sh.pub
+[username@localhost shell_script]$ ./issuffix.sh sh.pub
 ok
-[userName@localhost shell_script]$ ./issuffix.sh sh.pu
+[username@localhost shell_script]$ ./issuffix.sh sh.pu
 need file with .pub
-#+END_SRC
+#+end_src
 
 例：判断字符串的长度
-#+BEGIN_SRC shell
+#+begin_src shell
 expr lengh "$char"
 echo ${#char}
-echo ${char} | wc -L
+echo ${char} | wc -l
 echo ${char} | awk '{pring length($0)}'
-#+END_SRC
+#+end_src
 *** 测试某package是否安装
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ [ `rpm -qa | grep -w "emacs" | wc -l` -gt 0 ] && echo 1 || echo 0
+#+begin_src shell
+[username@localhost shell_script]$ [ `rpm -qa | grep -w "emacs" | wc -l` -gt 0 ] && echo 1 || echo 0
 1
-[userName@localhost shell_script]$ [ `rpm -qa | grep -w "emac" | wc -l` -gt 0 ] && echo 1 || echo 0
+[username@localhost shell_script]$ [ `rpm -qa | grep -w "emac" | wc -l` -gt 0 ] && echo 1 || echo 0
 0
-#+END_SRC
+#+end_src
 ** 选择结构
 *** if 结构
 - 单分支 if 分支
-#+BEGIN_SRC shell
+#+begin_src shell
 if 判断条件; then
   statemen1
   statemen2
 fi
-#+END_SRC
+#+end_src
 - 多分支 if 分支
-#+BEGIN_SRC shell
+#+begin_src shell
 if 判断条件; then
   statemen1
   statemen2
@@ -375,10 +377,10 @@ else
   statemen5
   statemen6
 fi
-#+END_SRC
+#+end_src
 
 *** case 语句
-#+BEGIN_SRC shell
+#+begin_src shell
 case "变量" in
     val1)
         cmd1...
@@ -389,42 +391,42 @@ case "变量" in
      *)
         cmd...
 esac
-#+END_SRC
+#+end_src
 ** 循环结构
 *** for循环
-#+BEGIN_SRC shell
+#+begin_src shell
 for var [in var_list]
 do
     cmd...
 done
-#+END_SRC
+#+end_src
 *注*
 - 当"in val_list" 省略时，相当于"in $@";
 *** while循环
-#+BEGIN_SRC shell
+#+begin_src shell
 while <条件(成立)>
 do
     cmd
 done
-#+END_SRC
+#+end_src
 *** until循环
-#+BEGIN_SRC shell
+#+begin_src shell
 until <条件(不成立)>
 do
     cmd
 done
-#+END_SRC
+#+end_src
 *** 循环控制
 | 命令       | 含义                                             |
 |------------+--------------------------------------------------|
-| break N    | 跳出N层循环，N省略表示跳出整个循环               |
-| continue N | 退到第N层循环，N省略表示进入本次循环的下一次循环 |
-| exit N     |                                                  |
-| return N   | 返回调用函数                                     |
+| break n    | 跳出n层循环，n省略表示跳出整个循环               |
+| continue n | 退到第n层循环，n省略表示进入本次循环的下一次循环 |
+| exit n     |                                                  |
+| return n   | 返回调用函数                                     |
 
 ** 函数
 *** 函数定义
-#+BEGIN_SRC shell
+#+begin_src shell
 function 函数名() {
     cmd1...
     return n
@@ -437,20 +439,20 @@ function 函数名 {
     cmd1...
     return n
 }
-#+END_SRC
+#+end_src
 *** 函数执行
-#+BEGIN_SRC shell
+#+begin_src shell
 函数名  ## 不带参数，直接执行
-#+END_SRC
+#+end_src
 *注*
 - 函数需在执行程序前面定义或加载;
 - shell 中执行系统中各程序的顺序为：系统别名 --> 函数 --> 系统命令 --> 可执行文件；
 - shell 函数中，return命令和exit类似，return的作用是退出函数，exit是退出脚本，各自返回值到函数或shell；
 - 如果将函数存放在独立的文件中，脚本需要使用source或. 来加载；
 
-#+BEGIN_SRC shell
+#+begin_src shell
 函数名 参数1 参数2 ...  ## 不带参数，直接执行
-#+END_SRC
+#+end_src
 *注*
 - shell的位置参数($1, $2,..., $#, $*, $?, $@)都可以作为参数来使用；
 - 当函数执行完成后，原来的命令行脚本的参数恢复；
@@ -458,209 +460,209 @@ function 函数名 {
 
 ** 数组
 *** 数组定义
-#+BEGIN_SRC shell
+#+begin_src shell
 array=(val1 val2 val3 ...)  ## 定义静态数组
 array=($(命令))             ## 定义动态数组，将命令的执行结果作为列表的内容
-#+END_SRC
+#+end_src
 *** 数组内元素的赋值、删除
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ array=(1 2 3)     ## 数组赋值
-[userName@localhost shell_script]$ echo ${array[*]}  ## 打印所有元素
+#+begin_src shell
+[username@localhost shell_script]$ array=(1 2 3)     ## 数组赋值
+[username@localhost shell_script]$ echo ${array[*]}  ## 打印所有元素
 1 2 3
-[userName@localhost shell_script]$ echo ${array[@]}
+[username@localhost shell_script]$ echo ${array[@]}
 1 2 3
-[userName@localhost shell_script]$ echo ${#array[@]} ## 打印数组长度
+[username@localhost shell_script]$ echo ${#array[@]} ## 打印数组长度
 3
-[userName@localhost shell_script]$ echo ${#array[*]}
+[username@localhost shell_script]$ echo ${#array[*]}
 3
-[userName@localhost shell_script]$ array[3]=5        ## 追加赋值
-[userName@localhost shell_script]$ echo ${array[*]}  ## 打印所有元素
+[username@localhost shell_script]$ array[3]=5        ## 追加赋值
+[username@localhost shell_script]$ echo ${array[*]}  ## 打印所有元素
 1 2 3 5
-[userName@localhost shell_script]$ array[1]=4        ## 替换
-[userName@localhost shell_script]$ echo ${array[*]}
+[username@localhost shell_script]$ array[1]=4        ## 替换
+[username@localhost shell_script]$ echo ${array[*]}
 1 4 3 5
-[userName@localhost shell_script]$ unset array[1]    ## 删除元素
-[userName@localhost shell_script]$ echo ${array[*]}
+[username@localhost shell_script]$ unset array[1]    ## 删除元素
+[username@localhost shell_script]$ echo ${array[*]}
 1 3 5
-[userName@localhost shell_script]$ echo ${array[1]}  ## 删除后位置还在，无值
+[username@localhost shell_script]$ echo ${array[1]}  ## 删除后位置还在，无值
 
-[userName@localhost shell_script]$ echo ${array[3]}  ## 列表末尾元素仍然存在
+[username@localhost shell_script]$ echo ${array[3]}  ## 列表末尾元素仍然存在
 5
-[userName@localhost shell_script]$ unset array       ## 删除整个数组
-[userName@localhost shell_script]$ echo ${array[*]}
-#+END_SRC
+[username@localhost shell_script]$ unset array       ## 删除整个数组
+[username@localhost shell_script]$ echo ${array[*]}
+#+end_src
 *** 数组内容的截取、替换
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ array=(1 2 3 4 5)
-[userName@localhost shell_script]$ echo ${array[@]:1:3}  ## 截取1到3号元素
+#+begin_src shell
+[username@localhost shell_script]$ array=(1 2 3 4 5)
+[username@localhost shell_script]$ echo ${array[@]:1:3}  ## 截取1到3号元素
 2 3 4
-[userName@localhost shell_script]$ array=(1 2 3 1 1)
-[userName@localhost shell_script]$ echo ${array[@]/1/a}  ## 用a替换掉1
+[username@localhost shell_script]$ array=(1 2 3 1 1)
+[username@localhost shell_script]$ echo ${array[@]/1/a}  ## 用a替换掉1
 a 2 3 a a
 
-[userName@localhost shell_script]$ array=(one two three four five)
-[userName@localhost shell_script]$ echo ${array[*]}
+[username@localhost shell_script]$ array=(one two three four five)
+[username@localhost shell_script]$ echo ${array[*]}
 one two three four five
-[userName@localhost shell_script]$ echo ${array[@]#o*}    ## 从左边开始匹配最短的数组元素，并删除
+[username@localhost shell_script]$ echo ${array[@]#o*}    ## 从左边开始匹配最短的数组元素，并删除
 ne two three four five
-[userName@localhost shell_script]$ echo ${array[@]##o*}   ## 从左边开始匹配最长的数组元素，并删除
+[username@localhost shell_script]$ echo ${array[@]##o*}   ## 从左边开始匹配最长的数组元素，并删除
 two three four five
-[userName@localhost shell_script]$ echo ${array[@]#t*}
+[username@localhost shell_script]$ echo ${array[@]#t*}
 one wo hree four five
-[userName@localhost shell_script]$ echo ${array[@]##t*}
+[username@localhost shell_script]$ echo ${array[@]##t*}
 one four five
-[userName@localhost shell_script]$ echo ${array[@]%f*}    ## 从右边开始匹配最短的数组元素，并删除
+[username@localhost shell_script]$ echo ${array[@]%f*}    ## 从右边开始匹配最短的数组元素，并删除
 one two three
-[userName@localhost shell_script]$ echo ${array[@]%%f*}   ## 从右边开始匹配最长的数组元素，并删除
+[username@localhost shell_script]$ echo ${array[@]%%f*}   ## 从右边开始匹配最长的数组元素，并删除
 one two three
-[userName@localhost shell_script]$ echo ${array[@]%r*}
+[username@localhost shell_script]$ echo ${array[@]%r*}
 one two th fou five
-[userName@localhost shell_script]$ echo ${array[@]%%r*}
+[username@localhost shell_script]$ echo ${array[@]%%r*}
 one two th fou five
-#+END_SRC
+#+end_src
 *** 数组引用
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ array=(1 2 3)
-[userName@localhost shell_script]$ echo $array
+#+begin_src shell
+[username@localhost shell_script]$ array=(1 2 3)
+[username@localhost shell_script]$ echo $array
 1
-[userName@localhost shell_script]$ echo ${array[*]}
+[username@localhost shell_script]$ echo ${array[*]}
 1 2 3
 
-[userName@localhost shell_script]$ array=($(ls /etc/init.d/))
-[userName@localhost shell_script]$ echo ${array[*]}
-functions netconsole network README
-[userName@localhost shell_script]$ array=($(ls /etc/init.d/))
-[userName@localhost shell_script]$ echo ${array[0]}
+[username@localhost shell_script]$ array=($(ls /etc/init.d/))
+[username@localhost shell_script]$ echo ${array[*]}
+functions netconsole network readme
+[username@localhost shell_script]$ array=($(ls /etc/init.d/))
+[username@localhost shell_script]$ echo ${array[0]}
 functions            ## 序号从0开始
-#+END_SRC
-* For fun
-** PS1
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ echo $PS1
-[\u@\h \W]\$
-#+END_SRC
-PS1 定义了命令提示字符，可以自定义：
-- \d ：可显示出“星期 月 日”的日期格式，如："Mon Feb 2"
-- \H ：完整的主机名称。
+#+end_src
+* for fun
+** ps1
+#+begin_src shell
+[username@localhost shell_script]$ echo $ps1
+[\u@\h \w]\$
+#+end_src
+ps1 定义了命令提示字符，可以自定义：
+- \d ：可显示出“星期 月 日”的日期格式，如："mon feb 2"
+- \h ：完整的主机名称。
 - \h ：仅取主机名称在第一个小数点之前的名字
-- \t ：显示时间，为 24 小时格式的“HH:MM:SS”
-- \T ：显示时间，为 12 小时格式的“HH:MM:SS”
-- \A ：显示时间，为 24 小时格式的“HH:MM”
+- \t ：显示时间，为 24 小时格式的“hh:mm:ss”
+- \t ：显示时间，为 12 小时格式的“hh:mm:ss”
+- \a ：显示时间，为 24 小时格式的“hh:mm”
 - \@ ：显示时间，为 12 小时格式的“am/pm”样式
 - \u ：目前使用者的帐号名称，如“dmtsai”；
-- \v ：BASH 的版本信息，如测试主机版本为 4.2.46（1）-release，仅取“4.2”显示
+- \v ：bash 的版本信息，如测试主机版本为 4.2.46（1）-release，仅取“4.2”显示
 - \w ：完整的工作目录名称，由根目录写起的目录名称。家目录会以 ~ 取代；
-- \W ：利用 basename 函数取得工作目录名称，所以仅会列出最后一个目录名。
+- \w ：利用 basename 函数取得工作目录名称，所以仅会列出最后一个目录名。
 - # ：下达的第几个指令。
 - $ ：提示字符，如果是 root 时，提示字符为 # ，否则就是 $ 啰～
-#+BEGIN_SRC shell
-[userName@localhost shell_script]$ PS1='[\u@\h \w \A #\#]\$ '
-[userName@localhost ~/shell_script 05:11 #77]$
-#+END_SRC
+#+begin_src shell
+[username@localhost shell_script]$ ps1='[\u@\h \w \a #\#]\$ '
+[username@localhost ~/shell_script 05:11 #77]$
+#+end_src
 **  bash 登入与欢迎：/etc/issue, /etc/motd
 
 * 网络配置
 ** 其他
 - 网络配置文件：
-  #+BEGIN_EXAMPLE
+  #+begin_example
   /etc/sysconfig/network-scripts/ifcfg-
-  #+END_EXAMPLE
+  #+end_example
 
   - 重启网络：
-  #+BEGIN_SRC shell
+  #+begin_src shell
   systemctl restart network
-  #+END_SRC
+  #+end_src
 
   - 查看网卡信息：
-  #+BEGIN_SRC shell
+  #+begin_src shell
   nmcli connection show
-  #+END_SRC
+  #+end_src
 
   - 命令行模式下网卡修改：
-  #+BEGIN_SRC shell
+  #+begin_src shell
   nmtui
-  #+END_SRC
+  #+end_src
 
 * 远程连接
-  - ssh [-f] [-o 参数项目] [-p 非默认端口(默认为 22 )] [账号@]IP [指令]
+  - ssh [-f] [-o 参数项目] [-p 非默认端口(默认为 22 )] [账号@]ip [指令]
   -f:主机上执行指令，界面跳回客户端，即不等待主机上指令的执行过程
 
   -o:
 
-  ConnectTimeout=秒数
+  connecttimeout=秒数
 
-  StrictHostKeyChecking=[yes|no|ask(预设)]:当第一次远程到一个主机时，会被询问 "Are you sure you want to continue connecting (yes/no)? ". 当批量执行时，每次问就会很麻烦，这时 StrictHostKeyChecking=no 就是个不错的选择。
+  stricthostkeychecking=[yes|no|ask(预设)]:当第一次远程到一个主机时，会被询问 "are you sure you want to continue connecting (yes/no)? ". 当批量执行时，每次问就会很麻烦，这时 stricthostkeychecking=no 就是个不错的选择。
 
-  #+BEGIN_EXAMPLE
-  $ ssh -f root@some_IP shutdown -h now
-  #+END_EXAMPLE
+  #+begin_example
+  $ ssh -f root@some_ip shutdown -h now
+  #+end_example
 
   - sftp
   - scp [-pr] [-l 速率] file [账号@]主机:目录名 <==上传
   scp [-pr] [-l 速率] [账号@]主机:file 目录名 <==下载
   -p ：保留原本档案的权限数据；
   -r ：复制来源为目录时，可以复制整个目录 (含子目录)
-  -l ：可以限制传输的速度，单位为 Kbits/s ，例如 [-l 800] 代表传输速限 100Kbytes/s
+  -l ：可以限制传输的速度，单位为 kbits/s ，例如 [-l 800] 代表传输速限 100kbytes/s
 
   - 查看是否安装了openssh-server：
-    #+BEGIN_EXAMPLE
+    #+begin_example
     $ yum list installed | grep openssh-server
-    #+END_EXAMPLE
+    #+end_example
 
   - 如果没有安装，则安装openssh-server：
-#+BEGIN_EXAMPLE
+#+begin_example
 $ yum install openssh-server
-#+END_EXAMPLE
+#+end_example
 
   - sshd 服务配置文件
-    #+BEGIN_SRC shell
+    #+begin_src shell
     $ /etc/ssh/sshd_config
-    #+END_SRC
+    #+end_src
 
   - 开启 sshd 服务
-    #+BEGIN_SRC shell
+    #+begin_src shell
     $ sudo service sshd start
-    #+END_SRC
+    #+end_src
 
   - 检查 sshd 服务是否已经开启：
-    #+BEGIN_SRC shell
+    #+begin_src shell
     $ ps -e | grep sshd
-    #+END_SRC
+    #+end_src
 
   - 检查 22 号端口是否开启监听：
-    #+BEGIN_SRC shell
+    #+begin_src shell
     $ netstat -an | grep 22
-    #+END_SRC
+    #+end_src
 
 * 防火墙设置
   1. firewalld的基本使用
   - 启动：
-    #+BEGIN_SRC shell
+    #+begin_src shell
     $ systemctl start firewalld
-    #+END_SRC
+    #+end_src
 
   - 关闭：
-    #+BEGIN_SRC shell
+    #+begin_src shell
     $ systemctl stop firewalld
-    #+END_SRC
+    #+end_src
 
   - 查看状态：
-    #+BEGIN_SRC shell
+    #+begin_src shell
     $ systemctl status firewalld
-    #+END_SRC
+    #+end_src
 
   - 开机禁用：
-    #+BEGIN_SRC shell
+    #+begin_src shell
     $ systemctl disable firewalld
-    #+END_SRC
+    #+end_src
 
   - 开机启用：
-    #+BEGIN_SRC shell
+    #+begin_src shell
     $ systemctl enable firewalld
-    #+END_SRC
+    #+end_src
 
-  2. systemctl是CentOS7的服务管理工具中主要的工具，它融合之前service和chkconfig的功能于一体。
-  #+BEGIN_QUOTE
+  2. systemctl是centos7的服务管理工具中主要的工具，它融合之前service和chkconfig的功能于一体。
+  #+begin_quote
   启动一个服务：systemctl start 服务名
   systemctl start firewalld.service
 
@@ -685,7 +687,7 @@ $ yum install openssh-server
   查看已启动的服务列表：systemctl list-unit-files|grep enabled
 
   查看启动失败的服务列表：systemctl --failed
-  #+END_QUOTE
+  #+end_quote
 
   3.配置firewalld-cmd
   查看版本：
@@ -752,46 +754,46 @@ $ yum install openssh-server
 
   查看当前工作目录树的工作修改状态
   git status
-  -- untracked 未跟踪，此文件在文件夹中，但没有加入到git库中，不参与版本控制，通过git add 状态变为 Staged
-  -- Modified文件已修改，仅修改，没有进行其他操作
+  -- untracked 未跟踪，此文件在文件夹中，但没有加入到git库中，不参与版本控制，通过git add 状态变为 staged
+  -- modified文件已修改，仅修改，没有进行其他操作
   -- deleted
   -- renamed
 
   将状态改变的代码提交至缓存
   git add 文件
   git add -u path/(modified tracked) file
-  git add -A path/(modified untracked) file
+  git add -a path/(modified untracked) file
 
   将代码提交到本地仓库
-  git commit -m "注释，即 GitHub-desktop 中 summary 部分"
+  git commit -m "注释，即 github-desktop 中 summary 部分"
 
   将代码推送至服务器
   git push
 
 当本地和云上的文件都有修改时，会发生代码冲突
 #+begin_example
-error: Your local changes to the following files would be overwritten by merge:        protected/config/main.phpPlease, commit your changes or stash them before you can merge.
+error: your local changes to the following files would be overwritten by merge:        protected/config/main.phpplease, commit your changes or stash them before you can merge.
 #+end_example
 解决的方法有，
 - 如果希望保留服务器上的改动，仅仅并入新配置项，
-#+BEGIN_SRC shell
+#+begin_src shell
 git stash
 git pull
 git stash pop
 git diff -w +filename    ;;确认代码自动合并
-#+END_SRC
+#+end_src
 - 如果希望用代码库中的文件完全覆盖本地文件，
-#+BEGIN_SRC shell
+#+begin_src shell
 git reset --hard
 git pull
-#+END_SRC
+#+end_src
 
 * 例行性工作调度
 主要有两种工作调度方式：
 - 一种是例行性的，就是每隔一定的周期要办的事项；
 - 一种是突发性的，就是做完以后就没有的那一种；
 
-针对这两种调度需求，Linux 提供了两种功能：
+针对这两种调度需求，linux 提供了两种功能：
 - at：at 是个可以处理仅执行一次就结束调度的指令。要执行 at，必须要有 atd 这个服务的支持。 *fedora27* 现在以及已经默认不安装 atd 服务。
 - crontab: crontab 这个指令所设置的工作将会循环进行下去。可执行的时间分为分钟、小时、每周、每月和每年等。crontab 需要 cornd 服务的支持。
 
@@ -806,30 +808,30 @@ crond 服务默认启动，系统提供使用者控制例行性工作调度的�
 
 *** 建立和管理 crontab 条目
 **** 通过 crontab 指令
-#+BEGIN_EXAMPLE
-[userName@localhost ~]# crontab [-u username] [-l;-e;-r]
+#+begin_example
+[username@localhost ~]# crontab [-u username] [-l;-e;-r]
 选项与参数：
 -u ：只有 root 才能进行这个任务，亦即帮其他使用者创建/移除 crontab 工作调度；
 -e ：编辑 crontab 的工作内容
 -l ：查阅 crontab 的工作内容
 -r ：移除所有的 crontab 的工作内容，若仅要移除一项，请用 -e 去编辑。
-#+END_EXAMPLE
+#+end_example
 
 不在 /etc/cron.deny 中的使用者都可以直接使用 "crontab -e" 来编辑例行性命令条目。
 *下达指令时以及脚本中最好使用绝对路径，避免找不到函数以及输出不明。*
-#+BEGIN_EXAMPLE
-[userName@localhost ~]# crontab -e
+#+begin_example
+[username@localhost ~]# crontab -e
 # 弹出 vi 编辑界面，按照上例的格式编辑即可， *注意* 是 5 颗星
-#+END_EXAMPLE
+#+end_example
 
-#+BEGIN_CENTER
+#+begin_center
 | 特殊字符 | 含义                                                     |
 |----------+----------------------------------------------------------|
 | *        | 代表任何时刻都可以接受                                   |
 | ，       | 分割时段，"3,6 * * * *" 表示第 3 和第 6 分钟             |
 | -        | 一段连续时间，"3-6 * * * *" 表示 3 到 6 分钟             |
 | /n       | n 表数字，表示“每隔 n 单位”，"*/5 * * * *" 表每隔 5 分钟 |
-#+END_CENTER
+#+end_center
 
 **** 通过系统配置文件
 "crontab -e" 是针对使用者的 cron 来设计的，对于例行性工作条目的管理，则可以通过管理系统文件的方式来进行。一般来说，crond 默认有三个地方存放脚本配置文件：
@@ -837,43 +839,43 @@ crond 服务默认启动，系统提供使用者控制例行性工作调度的�
 - /etc/cron.d/*
 - /var/spool/cron/*
 
-#+CAPTION: Example of jod definition in crontab
-#+BEGIN_EXAMPLE
-[userName@localhost ~]# cat /etc/crontab
-SHELL=/bin/bash ; 使用哪种 shell 接口
-PATH=/sbin:/bin:/usr/sbin:/usr/bin ; 可执行文件搜寻路径
-MAILTO=root ; 若有额外STDOUT，以 email将数据送给谁
+#+caption: example of jod definition in crontab
+#+begin_example
+[username@localhost ~]# cat /etc/crontab
+shell=/bin/bash ; 使用哪种 shell 接口
+path=/sbin:/bin:/usr/sbin:/usr/bin ; 可执行文件搜寻路径
+mailto=root ; 若有额外stdout，以 email将数据送给谁
 
-# Example of job definition:
+# example of job definition:
 # .---------------- minute (0 - 59)
 # |  .------------- hour (0 - 23)
 # |  |  .---------- day of month (1 - 31)
-# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
-# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  .------- month (1 - 12) or jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (sunday=0 or 7) or sun,mon,tue,wed,thu,fri,sat
 # |  |  |  |  |
 # *  *  *  *  * user-name  command to be executed
-#+END_EXAMPLE
+#+end_example
 
 以上是 /etc/crontab 文件中的内容，系统会每分钟对该文件进行扫描。与 crontab -e 的内容相比，不同的部分主要在前面的几行：
-- PATH=... : 执行时搜索路径
-- MAILTO=root : 当 /etc/crontab 中例行性工作执行发生错误时，或者该工作的执行结果有 STDOUT/STDERR 时，会将错误信息发送到指定用户的邮箱。
+- path=... : 执行时搜索路径
+- mailto=root : 当 /etc/crontab 中例行性工作执行发生错误时，或者该工作的执行结果有 stdout/stderr 时，会将错误信息发送到指定用户的邮箱。
 
-#+BEGIN_EXAMPLE
+#+begin_example
 [root@study ~]# ls -l /etc/cron.d
--rw-r--r--. 1 root root 128 Jul 30 2014 0hourly
--rw-r--r--. 1 root root 108 Mar 6 10:12 raid-check
--rw-------. 1 root root 235 Mar 6 13:45 sysstat
--rw-r--r--. 1 root root 187 Jan 28 2014 unbound-anchor
+-rw-r--r--. 1 root root 128 jul 30 2014 0hourly
+-rw-r--r--. 1 root root 108 mar 6 10:12 raid-check
+-rw-------. 1 root root 235 mar 6 13:45 sysstat
+-rw-r--r--. 1 root root 187 jan 28 2014 unbound-anchor
 # 其实说真的，除了 /etc/crontab 之外，crond 的配置文件还不少耶！上面就有四个设置！
 # 先让我们来瞧瞧 0hourly 这个配置文件的内容吧！
 [root@study ~]# cat /etc/cron.d/0hourly
-# Run the hourly jobs
-SHELL=/bin/bash
-PATH=/sbin:/bin:/usr/sbin:/usr/bin
-MAILTO=root
+# run the hourly jobs
+shell=/bin/bash
+path=/sbin:/bin:/usr/sbin:/usr/bin
+mailto=root
 01 * * * * root run-parts /etc/cron.hourly
 # 瞧一瞧，内容跟 /etc/crontab 几乎一模一样！但实际上是有设置值喔！就是最后一行！
-#+END_EXAMPLE
+#+end_example
 
 0hourly 文件中执行的函数为 run-parts, 该函数会在一个设定的时间内随机选择一个时间点来执行/etc/cron.hourly 目录内的所有可执行文件。具体的说，如果对定点执行要求不太严格，可以将脚本（或指令）放置到（或链接到）/etc/cron.hourly/ 目录下，该脚本就会被 crond 在每小时的 1 分开始后的 5 分钟内，随机选取一个时间来执行。除了 cron.hourly，/etc 文件夹下还有 cron.daily、cron.weekly 和 cron.monthly 等文件，分别表示每日、每周、每月各执行一次。和 cron.hourly 不同的是，这三个文件是由 anacron 所执行的。
 
@@ -888,16 +890,16 @@ MAILTO=root
 **** 注意事项（编自鸟哥的）
 - 资源分配不均
 当大量使用 crontab 的时候，可能会出现系统在某一时刻特别繁忙的情况，此时的处理办法之一是将任务分开来执行。
-#+BEGIN_EXAMPLE
-    [userName@localhost ~]# vim /etc/crontab
-    1,6,11,16,21,26,31,36,41,46,51,56 * * * * userName CMD1
-    2,7,12,17,22,27,32,37,42,47,52,57 * * * * userName CMD2
-    3,8,13,18,23,28,33,38,43,48,53,58 * * * * userName CMD3
-    4,9,14,19,24,29,34,39,44,49,54,59 * * * * userName CMD4
-#+END_EXAMPLE
+#+begin_example
+    [username@localhost ~]# vim /etc/crontab
+    1,6,11,16,21,26,31,36,41,46,51,56 * * * * username cmd1
+    2,7,12,17,22,27,32,37,42,47,52,57 * * * * username cmd2
+    3,8,13,18,23,28,33,38,43,48,53,58 * * * * username cmd3
+    4,9,14,19,24,29,34,39,44,49,54,59 * * * * username cmd4
+#+end_example
 
 - 取消不要的输出项目
-当有执行成果或者执行的命令中有输出数据时，这些数据会被 mail 给指定的账户。 #+TODO 可以采用数据重定向将输出结果输出到 /dev/null 中。
+当有执行成果或者执行的命令中有输出数据时，这些数据会被 mail 给指定的账户。 #+todo 可以采用数据重定向将输出结果输出到 /dev/null 中。
 
 - 安全检查
 很多时候被植入木马都是以例行命令的方式植入的，所以可以借由检查 /var/log/cron 的内容来视察是否有“非您设置的 cron 被执行了。
@@ -910,136 +912,136 @@ MAILTO=root
 
 * 案例
 ** 案例一：centos minimal 安装（virtualbox 下测试）
-- 选择 centos minimal ISO 安装；
+- 选择 centos minimal iso 安装；
 - 安装之后首先配置网络，输入 nmcli d 查看网络的连接情况，下面是配置之后的网络情况，初始时 enp0s3 状态是 disconnected；
 
-#+BEGIN_EXAMPLE
-[root@localhost userName]# nmcli d
-DEVICE  TYPE      STATE      CONNECTION
+#+begin_example
+[root@localhost username]# nmcli d
+device  type      state      connection
 enp0s3  ethernet  connected  enp0s3
 lo      loopback  unmanaged  --
-#+END_EXAMPLE
+#+end_example
 
-- 在终端输入 nmtui，打开网络管理器界面，依次 Edit a connection --> enp0s3 --> <Edit...> --> [X] Automatically connect --> OK。重启网络服务 systemctl restart network；
+- 在终端输入 nmtui，打开网络管理器界面，依次 edit a connection --> enp0s3 --> <edit...> --> [x] automatically connect --> ok。重启网络服务 systemctl restart network；
 
 - 此时，系统中 ipconfig 等命令并不能使用，可输入 ip a 查看结果；
-#+BEGIN_EXAMPLE
-[root@localhost userName]# ip a
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+#+begin_example
+[root@localhost username]# ip a
+1: lo: <loopback,up,lower_up> mtu 65536 qdisc noqueue state unknown group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
     inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
-2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+2: enp0s3: <broadcast,multicast,up,lower_up> mtu 1500 qdisc pfifo_fast state up group default qlen 1000
     link/ether 08:00:27:b5:58:76 brd ff:ff:ff:ff:ff:ff
     inet 10.0.2.15/24 brd 10.0.2.255 scope global noprefixroute dynamic enp0s3
        valid_lft 72435sec preferred_lft 72435sec
     inet6 fe80::479:586:1f5f:4672/64 scope link noprefixroute
        valid_lft forever preferred_lft forever
-#+END_EXAMPLE
+#+end_example
 
 - 此时应该可以连接互联网，ping 一下看看；
 
 - 安装网络工具包 net-tools，常用的 ifconfig 和 netstat 等命令即可使用；
-#+BEGIN_EXAMPLE
+#+begin_example
 yum install net-tools
-#+END_EXAMPLE
+#+end_example
 
-- ssh 配置，检查 OpenSSH 是否安装，默认已经安装；
-#+BEGIN_EXAMPLE
+- ssh 配置，检查 openssh 是否安装，默认已经安装；
+#+begin_example
 $ yum list installed | grep openssh-server
-#+END_EXAMPLE
+#+end_example
 
 - 配置 /etc/ssh/sshd_config 文件；
-#+BEGIN_SRC shell
-Port 22  # 打开 22 号端口
-#AddressFamily any
-ListenAddress 0.0.0.0
-ListenAddress ::
+#+begin_src shell
+port 22  # 打开 22 号端口
+#addressfamily any
+listenaddress 0.0.0.0
+listenaddress ::
 ...
-PasswordAuthentication yes
+passwordauthentication yes
 ...
-UseDNS no  # 这一行很多网上教程都没有提到，在 virtualbox 环境中，配置这一行之后才能顺利 ssh 进来（XSHELL 中测试）
+usedns no  # 这一行很多网上教程都没有提到，在 virtualbox 环境中，配置这一行之后才能顺利 ssh 进来（xshell 中测试）
 
-#+END_SRC
+#+end_src
 
 - virtualbox 环境中选择关闭防火墙；
 
-*** CentOS 添加 yum 源
-- 安装 EPEL 源，EPEL官网地址：https://fedoraproject.org/wiki/EPEL， CentOS用户可以直接安装并启用EPEL 源（需 root 权限）
-#+BEGIN_EXAMPLE
-[root@localhost userName]# yum repolist
-Loaded plugins: fastestmirror
-Loading mirror speeds from cached hostfile
+*** centos 添加 yum 源
+- 安装 epel 源，epel官网地址：https://fedoraproject.org/wiki/epel， centos用户可以直接安装并启用epel 源（需 root 权限）
+#+begin_example
+[root@localhost username]# yum repolist
+loaded plugins: fastestmirror
+loading mirror speeds from cached hostfile
  * base: mirrors.nwsuaf.edu.cn
  * extras: mirrors.shu.edu.cn
  * updates: mirrors.zju.edu.cn
 repo id                                        repo name                                        status
-base/7/x86_64                                  CentOS-7 - Base                                  9,911
-extras/7/x86_64                                CentOS-7 - Extras                                  403
-updates/7/x86_64                               CentOS-7 - Updates                               1,348
+base/7/x86_64                                  centos-7 - base                                  9,911
+extras/7/x86_64                                centos-7 - extras                                  403
+updates/7/x86_64                               centos-7 - updates                               1,348
 repolist: 11,662
-#+END_EXAMPLE
+#+end_example
 
-#+BEGIN_EXAMPLE
-[root@localhost userName]# yum install epel-release
-Loaded plugins: fastestmirror
-Loading mirror speeds from cached hostfile
+#+begin_example
+[root@localhost username]# yum install epel-release
+loaded plugins: fastestmirror
+loading mirror speeds from cached hostfile
  * base: mirrors.nwsuaf.edu.cn
  * extras: mirrors.shu.edu.cn
  * updates: mirrors.zju.edu.cn
-Resolving Dependencies
---> Running transaction check
----> Package epel-release.noarch 0:7-11 will be installed
---> Finished Dependency Resolution
+resolving dependencies
+--> running transaction check
+---> package epel-release.noarch 0:7-11 will be installed
+--> finished dependency resolution
 
-Dependencies Resolved
+dependencies resolved
 
 ======================================================================================================
- Package                     Arch                  Version                Repository             Size
+ package                     arch                  version                repository             size
 ======================================================================================================
-Installing:
+installing:
  epel-release                noarch                7-11                   extras                 15 k
 
-Transaction Summary
+transaction summary
 ======================================================================================================
-Install  1 Package
+install  1 package
 
-Total download size: 15 k
-Installed size: 24 k
-Is this ok [y/d/N]: y
-Downloading packages:
-epel-release-7-11.noarch.rpm                                                   |  15 kB  00:00:15
-Running transaction check
-Running transaction test
-Transaction test succeeded
-Running transaction
-  Installing : epel-release-7-11.noarch                                                           1/1
-  Verifying  : epel-release-7-11.noarch                                                           1/1
+total download size: 15 k
+installed size: 24 k
+is this ok [y/d/n]: y
+downloading packages:
+epel-release-7-11.noarch.rpm                                                   |  15 kb  00:00:15
+running transaction check
+running transaction test
+transaction test succeeded
+running transaction
+  installing : epel-release-7-11.noarch                                                           1/1
+  verifying  : epel-release-7-11.noarch                                                           1/1
 
-Installed:
+installed:
   epel-release.noarch 0:7-11
 
-Complete!
-#+END_EXAMPLE
+complete!
+#+end_example
 
-再查看源，EPEL 安装完成
-#+BEGIN_EXAMPLE
-[root@localhost userName]# yum repolist
-Loaded plugins: fastestmirror
-Loading mirror speeds from cached hostfile
+再查看源，epel 安装完成
+#+begin_example
+[root@localhost username]# yum repolist
+loaded plugins: fastestmirror
+loading mirror speeds from cached hostfile
  * base: mirrors.nwsuaf.edu.cn
  * epel: mirrors.tuna.tsinghua.edu.cn
  * extras: mirrors.shu.edu.cn
  * updates: mirrors.zju.edu.cn
 repo id                          repo name                                                      status
-base/7/x86_64                    CentOS-7 - Base                                                 9,911
-epel/x86_64                      Extra Packages for Enterprise Linux 7 - x86_64                 12,686
-extras/7/x86_64                  CentOS-7 - Extras                                                 403
-updates/7/x86_64                 CentOS-7 - Updates                                              1,348
+base/7/x86_64                    centos-7 - base                                                 9,911
+epel/x86_64                      extra packages for enterprise linux 7 - x86_64                 12,686
+extras/7/x86_64                  centos-7 - extras                                                 403
+updates/7/x86_64                 centos-7 - updates                                              1,348
 repolist: 24,348
-#+END_EXAMPLE
+#+end_example
 更多关于 yum 源配置：
 https://blog.itnmg.net/2012/09/17/centos-yum-source/
 
@@ -1049,77 +1051,78 @@ http://www.live-in.org/archives/998.html
 
 https://centos.pkgs.org/7/repoforge-x86_64/
 
-** 案例二：VitualBox 扩容
-- 在windows下，使用 CMD 或 powershell，进入 virtualbox 安装目录，一般为“cd C:\Program Files\Oracle\VirtualBox”；
+
+** 案例二：vitualbox 扩容
+- 在windows下，使用 cmd 或 powershell，进入 virtualbox 安装目录，一般为“cd c:\program files\oracle\virtualbox”；
 - 查看当前虚拟机所有的虚拟硬盘
-#+BEGIN_SRC shell
-C:\Program Files\Oracle\VirtC:\Program Files\Oracle\VirtualBox> .\VBoxManage.exe list hdds
+#+begin_src shell
+c:\program files\oracle\virtc:\program files\oracle\virtualbox> .\vboxmanage.exe list hdds
 。。。 其他省略 。。。
-UUID:           384a555c-9de1-481d-be3d-858b69d9ed80
-Parent UUID:    base
-State:          created
-Type:           normal (base)
-Location:       D:\VMs\centos7-roms.vdi
-Storage format: VDI
-Capacity:       256000 MBytes
-Encryption:     disabled
-#+END_SRC
+uuid:           384a555c-9de1-481d-be3d-858b69d9ed80
+parent uuid:    base
+state:          created
+type:           normal (base)
+location:       d:\vms\centos7-roms.vdi
+storage format: vdi
+capacity:       256000 mbytes
+encryption:     disabled
+#+end_src
 
 - 修改硬盘镜像文件大小
-#+BEGIN_SRC shell
-$ VBoxManage modifyhd YOUR_HARD_DISK.vdi –热随着SIZE_IN_MB
-其中YOUR_HARD_DISK.vdi用真实的虚拟机文件替代，SIZE_IN_MB则由调整后的空间大小替代。
+#+begin_src shell
+$ vboxmanage modifyhd your_hard_disk.vdi –热随着size_in_mb
+其中your_hard_disk.vdi用真实的虚拟机文件替代，size_in_mb则由调整后的空间大小替代。
 
-C:\Program Files\Oracle\VirtualBox> .\VBoxManage.exe modifyhd D:\VMs\centos7-roms.vdi --resize 512000
+c:\program files\oracle\virtualbox> .\vboxmanage.exe modifyhd d:\vms\centos7-roms.vdi --resize 512000
 0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
-C:\Program Files\Oracle\VirtualBox> .\VBoxManage.exe list hdds
+c:\program files\oracle\virtualbox> .\vboxmanage.exe list hdds
 ... 其他省略 ...
-UUID:           384a555c-9de1-481d-be3d-858b69d9ed80
-Parent UUID:    base
-State:          created
-Type:           normal (base)
-Location:       D:\VMs\centos7-roms.vdi
-Storage format: VDI
-Capacity:       512000 MBytes
-Encryption:     disabled
-#+END_SRC
+uuid:           384a555c-9de1-481d-be3d-858b69d9ed80
+parent uuid:    base
+state:          created
+type:           normal (base)
+location:       d:\vms\centos7-roms.vdi
+storage format: vdi
+capacity:       512000 mbytes
+encryption:     disabled
+#+end_src
 注意：此时虚拟机中并不能识别刚分配的空间。
 
 - 开启虚拟机，开始分区磁盘
-#+BEGIN_SRC shell
-[root@SJLiu ~]# fdisk /dev/sda
-Welcome to fdisk (util-linux 2.23.2).
+#+begin_src shell
+[root@sjliu ~]# fdisk /dev/sda
+welcome to fdisk (util-linux 2.23.2).
 
-Changes will remain in memory only, until you decide to write them.
-Be careful before using the write command.
+changes will remain in memory only, until you decide to write them.
+be careful before using the write command.
 
 
-Command (m for help): n
-Partition type:
+command (m for help): n
+partition type:
    p   primary (3 primary, 0 extended, 1 free)
    e   extended
-Select (default e): p
-Selected partition 4
-First sector (524288000-1048575999, default 524288000):
-Using default value 524288000
-Last sector, +sectors or +size{K,M,G} (524288000-1048575999, default 1048575999):
-Using default value 1048575999
-Partition 4 of type Linux and of size 250 GiB is set
+select (default e): p
+selected partition 4
+first sector (524288000-1048575999, default 524288000):
+using default value 524288000
+last sector, +sectors or +size{k,m,g} (524288000-1048575999, default 1048575999):
+using default value 1048575999
+partition 4 of type linux and of size 250 gib is set
 
-Command (m for help): w
-The partition table has been altered!
+command (m for help): w
+the partition table has been altered!
 
-Calling ioctl() to re-read partition table.
+calling ioctl() to re-read partition table.
 
-WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
-The kernel still uses the old table. The new table will be used at
+warning: re-reading the partition table failed with error 16: device or resource busy.
+the kernel still uses the old table. the new table will be used at
 the next reboot or after you run partprobe(8) or kpartx(8)
-Syncing disks.
+syncing disks.
 ##
-[root@SJLiu ~]# mkfs.xfs /dev/sda4
+[root@sjliu ~]# mkfs.xfs /dev/sda4
 mkfs.xfs: /dev/sda4 appears to contain a partition table (dos).
-mkfs.xfs: Use the -f option to force overwrite.
-[root@SJLiu ~]# mkfs.xfs -f /dev/sda4
+mkfs.xfs: use the -f option to force overwrite.
+[root@sjliu ~]# mkfs.xfs -f /dev/sda4
 meta-data=/dev/sda4              isize=512    agcount=4, agsize=16384000 blks
          =                       sectsz=512   attr=2, projid32bit=1
          =                       crc=1        finobt=0, sparse=0
@@ -1129,129 +1132,129 @@ naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
 log      =internal log           bsize=4096   blocks=32000, version=2
          =                       sectsz=512   sunit=0 blks, lazy-count=1
 realtime =none                   extsz=4096   blocks=0, rtextents=0
-[root@SJLiu ~]# pvcreate /dev/sda4
-WARNING: xfs signature detected on /dev/sda4 at offset 0. Wipe it? [y/n]: y
-  Wiping xfs signature on /dev/sda4.
-  Physical volume "/dev/sda4" successfully created.
-[root@SJLiu ~]# pvdisplay
-  --- Physical volume ---
-  PV Name               /dev/sda2
-  VG Name               centos
-  PV Size               <127.00 GiB / not usable 3.00 MiB
-  Allocatable           yes (but full)
-  PE Size               4.00 MiB
-  Total PE              32511
-  Free PE               0
-  Allocated PE          32511
-  PV UUID               aUmycF-IIjE-4Of3-wgLE-W6sR-aFNo-HjZ67R
+[root@sjliu ~]# pvcreate /dev/sda4
+warning: xfs signature detected on /dev/sda4 at offset 0. wipe it? [y/n]: y
+  wiping xfs signature on /dev/sda4.
+  physical volume "/dev/sda4" successfully created.
+[root@sjliu ~]# pvdisplay
+  --- physical volume ---
+  pv name               /dev/sda2
+  vg name               centos
+  pv size               <127.00 gib / not usable 3.00 mib
+  allocatable           yes (but full)
+  pe size               4.00 mib
+  total pe              32511
+  free pe               0
+  allocated pe          32511
+  pv uuid               aumycf-iije-4of3-wgle-w6sr-afno-hjz67r
 
-  --- Physical volume ---
-  PV Name               /dev/sda3
-  VG Name               centos
-  PV Size               122.00 GiB / not usable 4.00 MiB
-  Allocatable           yes
-  PE Size               4.00 MiB
-  Total PE              31231
-  Free PE               286
-  Allocated PE          30945
-  PV UUID               kA6SMr-W0p0-rGq0-UwEm-0yfs-fCr1-zemRWf
+  --- physical volume ---
+  pv name               /dev/sda3
+  vg name               centos
+  pv size               122.00 gib / not usable 4.00 mib
+  allocatable           yes
+  pe size               4.00 mib
+  total pe              31231
+  free pe               286
+  allocated pe          30945
+  pv uuid               ka6smr-w0p0-rgq0-uwem-0yfs-fcr1-zemrwf
 
-  "/dev/sda4" is a new physical volume of "250.00 GiB"
-  --- NEW Physical volume ---
-  PV Name               /dev/sda4
-  VG Name
-  PV Size               250.00 GiB
-  Allocatable           NO
-  PE Size               0
-  Total PE              0
-  Free PE               0
-  Allocated PE          0
-  PV UUID               iZLSNN-xCaV-h0AA-Ro5w-xM2z-ybAg-kFeuWt
+  "/dev/sda4" is a new physical volume of "250.00 gib"
+  --- new physical volume ---
+  pv name               /dev/sda4
+  vg name
+  pv size               250.00 gib
+  allocatable           no
+  pe size               0
+  total pe              0
+  free pe               0
+  allocated pe          0
+  pv uuid               izlsnn-xcav-h0aa-ro5w-xm2z-ybag-kfeuwt
 
-[root@SJLiu ~]# vgdisplay
-  --- Volume group ---
-  VG Name               centos
-  System ID
-  Format                lvm2
-  Metadata Areas        2
-  Metadata Sequence No  7
-  VG Access             read/write
-  VG Status             resizable
-  MAX LV                0
-  Cur LV                3
-  Open LV               3
-  Max PV                0
-  Cur PV                2
-  Act PV                2
-  VG Size               248.99 GiB
-  PE Size               4.00 MiB
-  Total PE              63742
-  Alloc PE / Size       63456 / <247.88 GiB
-  Free  PE / Size       286 / <1.12 GiB
-  VG UUID               KUrrTh-u4iv-edK6-RA9t-TMJc-xscq-WxgcFX
+[root@sjliu ~]# vgdisplay
+  --- volume group ---
+  vg name               centos
+  system id
+  format                lvm2
+  metadata areas        2
+  metadata sequence no  7
+  vg access             read/write
+  vg status             resizable
+  max lv                0
+  cur lv                3
+  open lv               3
+  max pv                0
+  cur pv                2
+  act pv                2
+  vg size               248.99 gib
+  pe size               4.00 mib
+  total pe              63742
+  alloc pe / size       63456 / <247.88 gib
+  free  pe / size       286 / <1.12 gib
+  vg uuid               kurrth-u4iv-edk6-ra9t-tmjc-xscq-wxgcfx
 
-[root@SJLiu ~]# vgextend centos /dev/sda4
-  Volume group "centos" successfully extended
-[root@SJLiu ~]# lvdisplay
-  --- Logical volume ---
-  LV Path                /dev/centos/swap
-  LV Name                swap
-  VG Name                centos
-  LV UUID                GjgAW0-CUGP-JeW4-T1PX-Xj7d-4I0f-WoMp8R
-  LV Write Access        read/write
-  LV Creation host, time localhost, 2018-09-29 11:11:39 +0800
-  LV Status              available
+[root@sjliu ~]# vgextend centos /dev/sda4
+  volume group "centos" successfully extended
+[root@sjliu ~]# lvdisplay
+  --- logical volume ---
+  lv path                /dev/centos/swap
+  lv name                swap
+  vg name                centos
+  lv uuid                gjgaw0-cugp-jew4-t1px-xj7d-4i0f-womp8r
+  lv write access        read/write
+  lv creation host, time localhost, 2018-09-29 11:11:39 +0800
+  lv status              available
   # open                 2
-  LV Size                <7.88 GiB
-  Current LE             2016
-  Segments               1
-  Allocation             inherit
-  Read ahead sectors     auto
+  lv size                <7.88 gib
+  current le             2016
+  segments               1
+  allocation             inherit
+  read ahead sectors     auto
   - currently set to     8192
-  Block device           253:1
+  block device           253:1
 
-  --- Logical volume ---
-  LV Path                /dev/centos/home
-  LV Name                home
-  VG Name                centos
-  LV UUID                YfRiwR-f2uB-5tf4-bcBd-2PSH-Vw6Z-HcNiYU
-  LV Write Access        read/write
-  LV Creation host, time localhost, 2018-09-29 11:11:39 +0800
-  LV Status              available
+  --- logical volume ---
+  lv path                /dev/centos/home
+  lv name                home
+  vg name                centos
+  lv uuid                yfriwr-f2ub-5tf4-bcbd-2psh-vw6z-hcniyu
+  lv write access        read/write
+  lv creation host, time localhost, 2018-09-29 11:11:39 +0800
+  lv status              available
   # open                 1
-  LV Size                190.00 GiB
-  Current LE             48640
-  Segments               3
-  Allocation             inherit
-  Read ahead sectors     auto
+  lv size                190.00 gib
+  current le             48640
+  segments               3
+  allocation             inherit
+  read ahead sectors     auto
   - currently set to     8192
-  Block device           253:2
+  block device           253:2
 
-  --- Logical volume ---
-  LV Path                /dev/centos/root
-  LV Name                root
-  VG Name                centos
-  LV UUID                VuecKL-KgqC-K4zr-aeEr-SHx7-qLXC-7KshGV
-  LV Write Access        read/write
-  LV Creation host, time localhost, 2018-09-29 11:11:40 +0800
-  LV Status              available
+  --- logical volume ---
+  lv path                /dev/centos/root
+  lv name                root
+  vg name                centos
+  lv uuid                vueckl-kgqc-k4zr-aeer-shx7-qlxc-7kshgv
+  lv write access        read/write
+  lv creation host, time localhost, 2018-09-29 11:11:40 +0800
+  lv status              available
   # open                 1
-  LV Size                50.00 GiB
-  Current LE             12800
-  Segments               1
-  Allocation             inherit
-  Read ahead sectors     auto
+  lv size                50.00 gib
+  current le             12800
+  segments               1
+  allocation             inherit
+  read ahead sectors     auto
   - currently set to     8192
-  Block device           253:0
+  block device           253:0
 
-[root@SJLiu ~]# lvextend -L 440G -n /dev/centos/home
-  Size of logical volume centos/home changed from 190.00 GiB (48640 extents) to 440.00 GiB (112640 extents).
-  Logical volume centos/home successfully resized.
-[root@SJLiu ~]# resize2fs /dev/centos/home
-resize2fs 1.42.9 (28-Dec-2013)
-resize2fs: Bad magic number in super-block while trying to open /dev/centos/home
-Couldn't find valid filesystem superblock.
-[root@SJLiu ~]# xfs_growfs /dev/centos/home
+[root@sjliu ~]# lvextend -l 440g -n /dev/centos/home
+  size of logical volume centos/home changed from 190.00 gib (48640 extents) to 440.00 gib (112640 extents).
+  logical volume centos/home successfully resized.
+[root@sjliu ~]# resize2fs /dev/centos/home
+resize2fs 1.42.9 (28-dec-2013)
+resize2fs: bad magic number in super-block while trying to open /dev/centos/home
+couldn't find valid filesystem superblock.
+[root@sjliu ~]# xfs_growfs /dev/centos/home
 meta-data=/dev/mapper/centos-home isize=512    agcount=11, agsize=4529664 blks
          =                       sectsz=512   attr=2, projid32bit=1
          =                       crc=1        finobt=0 spinodes=0
@@ -1263,4 +1266,77 @@ log      =internal               bsize=4096   blocks=8847, version=2
 realtime =none                   extsz=4096   blocks=0, rtextents=0
 data blocks changed from 49807360 to 115343360
 
+#+end_src
+
+** 案例三：centos7 安装之后
+*** 安装 virtualbox
+#+BEGIN_SRC shell
+[root@SJLiu ~]# cat /etc/yum.repos.d/virtualbox.repo
+[virtualbox]
+name=Oracle Linux / RHEL / CentOS-$releasever / $basearch - VirtualBox
+baseurl=http://download.virtualbox.org/virtualbox/rpm/el/$releasever/$basearch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://www.virtualbox.org/download/oracle_vbox.asc
+[root@SJLiu Downloads]# yum update
+... 省略 ...
+[root@SJLiu Downloads]# yum install -y VirtualBox-5.2
 #+END_SRC
+
+*** Thinkpad 小红点驱动
+- 新建 conf 文件，写入以下内容，然后注销
+#+BEGIN_SRC shell
+[root@SJLiu Downloads]# cat /etc/X11/xorg.conf.d/01-trackpoint.conf
+Section "InputClass"
+Identifier "Trackpoint Wheel Emulation"
+MatchProduct "TPPS/2 IBM TrackPoint|DualPoint Stick|Synaptics Inc. Composite TouchPad / TrackPoint|ThinkPad USB Keyboard with TrackPoint|USB Trackpoint pointing device|Composite TouchPad / TrackPoint"
+MatchDevicePath "/dev/input/event*"
+Option "EmulateWheel" "true"
+Option "EmulateWheelButton" "2"
+Option "Emulate3Buttons" "false"
+Option "XAxisMapping" "6 7"
+Option "YAxisMapping" "4 5"
+EndSection
+#+END_SRC
+
+*** wps 安装
+已备份 rpm 包（wps-office-10.1.0.6757-1.x86_64.rpm）。
+
+*** chrome 等安装
+#+BEGIN_SRC shell
+##### 配置repo 源 #####
+[root@SJLiu Downloads]# cat /etc/yum.repos.d/shadowsocks.repo
+[librehat-shadowsocks]
+name=Copr repo for shadowsocks owned by librehat
+baseurl=https://copr-be.cloud.fedoraproject.org/results/librehat/shadowsocks/epel-7-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/librehat/shadowsocks/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+[root@SJLiu Downloads]# yum update
+[root@SJLiu Downloads]# yum install shadowsocks-qt5
+
+##### 安装 google chrome ######
+#+BEGIN_SRC shell
+[root@SJLiu Downloads]# cat /etc/yum.repos.d/google-chrome.repo
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+[root@SJLiu Downloads]# yum update
+[root@SJLiu Downloads]# yum install google-chrome-stable --nogpgcheck
+## --nogpgcheck 是由于墙的原因
+##### 导入配置文件 #####
+
+#+END_SRC
+#+BEGIN_EXAMPLE
++ 打开chrome浏览器，点击右上角设置、 更多工具、 扩展程序；
++ 已下载好（SwitchyOmega.zip）；
++ 将下载好的插件包解压，把SwitchyOmega.crx 文件拖放到扩展程序页面，点击添加扩展程序进行安装；
+跳过设置向导，点击导入/导出、从备份文件恢复、找到SwitchyOmegaOptions.bak打开，恢复完成后点击应用选项。
+#+END_EXAMPLE
