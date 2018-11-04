@@ -1305,7 +1305,7 @@ EndSection
 
 *** chrome 等安装
 #+BEGIN_SRC shell
-##### 配置repo 源 #####
+##### 配置 repo 源 #####
 [root@SJLiu Downloads]# cat /etc/yum.repos.d/shadowsocks.repo
 [librehat-shadowsocks]
 name=Copr repo for shadowsocks owned by librehat
@@ -1335,6 +1335,5 @@ gpgkey=https://dl.google.com/linux/linux_signing_key.pub
 + 打开chrome浏览器，点击右上角设置、 更多工具、 扩展程序；
 + 已下载好（SwitchyOmega.zip）；
 + 将下载好的插件包解压，把SwitchyOmega.crx 文件拖放到扩展程序页面，点击添加扩展程序进行安装；
-跳过设置向导，点击导入/导出、从备份文件恢复、找到SwitchyOmegaOptions.bak打开，恢复完成后点击应用选项。
-
++ 跳过设置向导，点击导入/导出、从备份文件恢复、找到SwitchyOmegaOptions.bak打开，恢复完成后点击应用选项。
 #+END_SRC
